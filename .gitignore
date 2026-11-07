@@ -1,0 +1,29 @@
+node_modules
+.next
+.open-next
+.wrangler/
+dist/
+.env*
+!.env.example
+.dev.vars*
+!.dev.vars.example
+*.tsbuildinfo
+.local/
+playwright-report/
+test-results/
+coverage/
+
+# Local tool metadata, caches and generated artifacts
+.21st/
+.impeccable/
+__pycache__/
+*.py[cod]
+artifacts/
+
+# Private/raw operational evidence is retained locally, not uploaded
+docs/evidence/**/*.json
+docs/evidence/**/*.ndjson
+docs/evidence/**/*.png
+docs/evidence/**/*.jpg
+docs/evidence/**/*.jpeg
+docs/evidence/**/*.webp

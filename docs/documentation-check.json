@@ -1,0 +1,25 @@
+{
+  "markdown_files": 16,
+  "local_links": 55,
+  "broken_links": [],
+  "unbalanced_fences": [],
+  "source_files_verified_unchanged": 12,
+  "requirements": 17,
+  "p0_requirements": 15,
+  "acceptance_cases": 72,
+  "duplicate_case_ids": [],
+  "stages": [
+    "B0",
+    "B1",
+    "B2",
+    "M0",
+    "B3",
+    "B4",
+    "M1",
+    "B5",
+    "B6",
+    "B7",
+    "M2"
+  ],
+  "independent_review": "Completed; acceptance dependency issue corrected by primary agent."
+}

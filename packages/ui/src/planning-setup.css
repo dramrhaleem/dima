@@ -1,0 +1,30 @@
+/* Planning choices explain their effect before the user requests a forecast. */
+.plan-setup .planning-live-summary { padding: 22px 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); margin-bottom: 24px; }
+.plan-setup .planning-live-summary h3 { margin: 0 0 16px; font-size: calc(17 * var(--workspace-type-unit, 1px)); }
+.planning-live-summary dl { margin: 0; }
+.planning-live-summary dl > div { display: flex; justify-content: space-between; gap: 18px; padding: 10px 0; font-size: calc(13 * var(--workspace-type-unit, 1px)); }
+.planning-live-summary dt { color: var(--muted); }
+.planning-live-summary dd { margin: 0; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.planning-live-summary dd small { display: block; margin-top: 4px; font-size: calc(11 * var(--workspace-type-unit, 1px)); font-weight: 400; color: var(--muted); }
+.plan-setup .planning-capacity-note { margin: 8px 0 16px; color: var(--muted); font-size: calc(12 * var(--workspace-type-unit, 1px)); }
+.planning-duration-estimate { padding-top: 16px; border-top: 1px solid var(--line); }
+.planning-duration-estimate strong { display: block; color: var(--primary); font-size: calc(18 * var(--workspace-type-unit, 1px)); letter-spacing: -.02em; line-height: 1.4; }
+.plan-setup .planning-duration-estimate p { margin: 8px 0 0; color: var(--muted); font-size: calc(12 * var(--workspace-type-unit, 1px)); }
+.planning-day-presets { margin: 22px 0 14px; }
+.planning-day-presets > span, .planning-goal-presets > span { display: block; font-size: calc(12 * var(--workspace-type-unit, 1px)); font-weight: 650; margin-bottom: 8px; }
+.planning-day-presets > div, .planning-goal-presets > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.plan-setup .planning-day-presets button, .plan-setup .planning-goal-presets button { min-height: 44px; padding: 8px 12px; font-size: calc(12 * var(--workspace-type-unit, 1px)); }
+.planning-day-presets > small { display: block; margin-top: 8px; color: var(--muted); font-size: calc(11 * var(--workspace-type-unit, 1px)); }
+.plan-setup .planning-goal-presets button[aria-pressed="true"] { background: var(--selected, var(--info-soft)); color: var(--primary); border-color: var(--primary); }
+.plan-setup .learning-weekdays > label > span > small { display: block; margin-top: 3px; font-size: calc(10 * var(--workspace-type-unit, 1px)); font-weight: 400; color: var(--muted); }
+.plan-setup .planning-rest-day input { background: var(--canvas, var(--surface)); }
+.plan-setup .planning-course-work { margin: 6px 0 14px; color: var(--muted); font-size: calc(12 * var(--workspace-type-unit, 1px)); }
+.planning-goal-presets { margin-bottom: 16px; }
+.plan-setup .learning-plan-aside > .planning-course-goals { padding-top: 0; }
+.plan-setup .planning-course-goals > h3 { margin-top: 0; }
+@media (max-width: 600px) {
+  .plan-setup .planning-live-summary { padding: 20px; }
+  .planning-live-summary dl > div { gap: 12px; font-size: 13px; }
+  .planning-live-summary dt { max-width: 55%; }
+  .plan-setup .planning-goal-presets button { flex: 1 1 calc(50% - 8px); }
+}

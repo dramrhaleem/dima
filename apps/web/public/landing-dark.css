@@ -1,0 +1,207 @@
+/* Dark adaptation of Dima's existing public canvas.
+   Loaded after the reference styles and the shared semantic theme.
+   Artwork geometry, interaction, sizing and the light appearance stay intact. */
+html[data-theme="dark"] { color-scheme: dark; }
+[data-theme="dark"] body {
+  background: var(--bg);
+  color: var(--ink);
+  caret-color: var(--primary);
+  scrollbar-color: var(--control-border) var(--bg);
+}
+[data-theme="dark"] body::-webkit-scrollbar-thumb {
+  background: var(--control-border);
+  border-color: var(--bg);
+}
+[data-theme="dark"] ::selection { background: var(--primary); color: #0b142c; }
+[data-theme="dark"] :is(a, button, input):focus-visible,
+[data-theme="dark"] dima-preview-switcher :focus-visible {
+  outline-color: var(--focus);
+}
+[data-theme="dark"] .landing-skip {
+  background: var(--surface-raised);
+  color: var(--primary);
+}
+
+/* Keep the header opaque across every section, including the blue field. */
+[data-theme="dark"] .site-header {
+  background: var(--bg);
+  border-bottom-color: var(--line);
+}
+[data-theme="dark"] .site-header nav :is(a, button) { color: var(--ink); }
+[data-theme="dark"] .button {
+  border-color: var(--control-border);
+  color: var(--ink);
+}
+[data-theme="dark"] .button:hover { background: var(--surface-hover); }
+[data-theme="dark"] .button-primary,
+[data-theme="dark"] .site-header .button-small {
+  background: var(--action);
+  border-color: var(--action);
+  color: var(--on-action);
+}
+[data-theme="dark"] .button-primary:hover,
+[data-theme="dark"] .site-header .button-small:hover {
+  background: var(--action-hover);
+  border-color: var(--action-hover);
+}
+[data-theme="dark"] .button-primary:active,
+[data-theme="dark"] .site-header .button-small:active { background: var(--action-pressed); }
+[data-theme="dark"] .quiet-link { color: var(--primary); }
+[data-theme="dark"] .quiet-link:hover { color: var(--primary-hover); }
+[data-theme="dark"] :is(.hero h1, .together-copy h2) > span { color: var(--primary); }
+[data-theme="dark"] :is(.how-intro h2, .section-heading h2) > span { color: var(--muted); }
+[data-theme="dark"] :is(
+  .hero-copy > p:first-of-type, .hero-note, .hero-signature p,
+  .how-intro > p, .how-sequence p, .section-heading p, .provider-note,
+  .together-copy > p:not(.plain-note), .plain-note, .closing-copy p,
+  .site-footer > p
+) { color: var(--muted); }
+[data-theme="dark"] :is(.together-section, .how-sequence article) { border-color: var(--line); }
+[data-theme="dark"] .how-sequence article:not(:last-child)::after { background: var(--line); }
+[data-theme="dark"] .sequence-marker { background: var(--selected); color: var(--primary); }
+[data-theme="dark"] .how-sequence article:last-child .sequence-marker {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+/* A quieter royal-blue field retains the brand's expressive first impression. */
+[data-theme="dark"] .hero-stage,
+[data-theme="dark"] .hero-stage::before,
+[data-theme="dark"] .return-section { background: #123b9d; }
+[data-theme="dark"] :is(.stage-caption, .stage-base, .return-copy h2) { color: #f3f5fc; }
+[data-theme="dark"] :is(.return-copy > p, .return-copy h2 > span) { color: #dce6ff; }
+[data-theme="dark"] .hero-win { background: #ff650a; color: #0b142c; box-shadow: none; }
+[data-theme="dark"] .hero-stage[data-steps="2"] .hero-win { background: #ffd5b9; color: #0b142c; }
+[data-theme="dark"] .hero-stage .dp-shell {
+  background: var(--surface-raised);
+  box-shadow: 0 24px 45px -14px #03071266;
+}
+[data-theme="dark"] dima-preview-switcher,
+[data-theme="dark"] .dp-panel-title h3 { color: var(--ink); }
+[data-theme="dark"] :is(
+  .dp-demo, .dp-small, .dp-task small, .dp-duration, .dp-completion,
+  .dp-footnote, .dp-body, .dp-plan-result > span, .dp-options small, .dp-bottom
+) { color: var(--muted); }
+[data-theme="dark"] .dp-tabs { background: var(--field); }
+[data-theme="dark"] .dp-tabs button { color: var(--muted); }
+[data-theme="dark"] .dp-tabs button:hover:not([aria-selected="true"]) {
+  background: var(--surface-hover);
+  color: var(--ink);
+}
+[data-theme="dark"] .dp-tabs button[aria-selected="true"] {
+  background: var(--action);
+  color: var(--on-action);
+}
+[data-theme="dark"] .dp-day { background: var(--selected); color: var(--primary); }
+[data-theme="dark"] .dp-day-orange { background: var(--accent-soft); color: var(--accent-text); }
+[data-theme="dark"] .dp-task { border-bottom-color: var(--line); }
+[data-theme="dark"] .dp-task:hover { background: var(--surface-hover); }
+[data-theme="dark"] .dp-check { border-color: var(--control-border); }
+[data-theme="dark"] .dp-task input:checked + .dp-check {
+  background: var(--action);
+  border-color: var(--action);
+}
+[data-theme="dark"] .hero-stage .dp-task:has(input:checked) { background: var(--success-soft); }
+[data-theme="dark"] .hero-stage .dp-task:has(input:checked) strong { color: var(--success); }
+[data-theme="dark"] .dp-task input:focus-visible + .dp-check,
+[data-theme="dark"] .dp-days input:focus-visible + span { outline-color: var(--focus); }
+[data-theme="dark"] .dp-progress-track { background: var(--track); }
+[data-theme="dark"] .dp-progress-track > span { background: #5c89ff; }
+[data-theme="dark"] .dp-days span {
+  background: var(--field);
+  border-color: var(--control-border);
+  color: var(--ink);
+}
+[data-theme="dark"] .dp-days input:checked + span {
+  background: var(--action);
+  border-color: var(--action);
+  color: var(--on-action);
+}
+[data-theme="dark"] .dp-options input { accent-color: var(--primary); }
+[data-theme="dark"] .dp-action { background: var(--action); color: var(--on-action); }
+[data-theme="dark"] .dp-action:hover { background: var(--action-hover); }
+[data-theme="dark"] .dp-bottom { background: var(--surface); }
+[data-theme="dark"] .dp-bottom a { color: var(--primary); }
+
+/* Community remains warm, with three distinct and labeled progress trails. */
+[data-theme="dark"] .together-demo { background: var(--surface); color: var(--ink); }
+[data-theme="dark"] .ensemble-symbol path:first-child { stroke: #5c89ff; }
+[data-theme="dark"] .ensemble-heading small { color: var(--accent-text); }
+[data-theme="dark"] .ensemble-tabs { border-bottom-color: var(--line); }
+[data-theme="dark"] .ensemble-tabs button { color: var(--muted); }
+[data-theme="dark"] .ensemble-tabs button:hover { color: var(--ink); }
+[data-theme="dark"] .ensemble-tabs button[aria-selected="true"] {
+  border-bottom-color: var(--primary);
+  color: var(--primary);
+}
+[data-theme="dark"] :is(
+  .ensemble-intro p, .ensemble-scale, .ensemble-reset,
+  .ensemble-disclaimer, .ensemble-timer > span, .ensemble-timer-status
+) { color: var(--muted); }
+[data-theme="dark"] :is(.is-you .ensemble-person-label, .ensemble-feedback) { color: var(--primary); }
+[data-theme="dark"] :is(.ensemble-track, .ensemble-timer-track) { background: var(--track); }
+[data-theme="dark"] .ensemble-trail { background: #7485a2; }
+[data-theme="dark"] .is-you .ensemble-trail { background: #5c89ff; }
+[data-theme="dark"] .is-orange .ensemble-trail { background: #ff650a; }
+[data-theme="dark"] .ensemble-avatar {
+  background: #7485a2;
+  color: #0b142c;
+  box-shadow: 0 0 0 4px var(--surface);
+}
+[data-theme="dark"] .is-you .ensemble-avatar,
+[data-theme="dark"] .ensemble-seats > span:first-child .ensemble-avatar {
+  background: var(--action);
+  color: var(--on-action);
+}
+[data-theme="dark"] .is-orange .ensemble-avatar,
+[data-theme="dark"] .ensemble-seats > span:last-child .ensemble-avatar {
+  background: #ff650a;
+  color: #0b142c;
+}
+[data-theme="dark"] .ensemble-controls button:disabled {
+  background: var(--disabled-bg);
+  border-color: var(--disabled-bg);
+  color: var(--disabled-text);
+  opacity: 1;
+}
+[data-theme="dark"] .ensemble-reset:hover { color: var(--ink); }
+[data-theme="dark"] .ensemble-disclaimer { border-top-color: var(--line); }
+[data-theme="dark"] [data-social-demo][data-timer-state="running"] .ensemble-timer strong { color: var(--primary); }
+[data-theme="dark"] [data-social-demo][data-timer-state="complete"] .ensemble-timer strong { color: var(--success); }
+[data-theme="dark"] [data-social-demo][data-timer-state="running"] .ensemble-seats b {
+  background: var(--action);
+  color: var(--on-action);
+}
+[data-theme="dark"] [data-social-demo][data-timer-state="complete"] .ensemble-seats b {
+  background: var(--success);
+  color: #0b142c;
+}
+
+/* Preserve the completed step and the blue/orange distinction while reflowing. */
+[data-theme="dark"] .button-paper { background: #f3f5fc; border-color: #f3f5fc; color: #123b9d; }
+[data-theme="dark"] .button-paper:hover { background: #dce6ff; border-color: #dce6ff; }
+/* Large brand fields keep light labels; text links use a separate accessible blue. */
+[data-theme="dark"] .dc-pm { background: #123b9d; }
+[data-theme="dark"] .dc-cs { background: var(--surface-raised); }
+[data-theme="dark"] .dc-course { color: #f3f5fc; }
+[data-theme="dark"] :is(.dc-provider, .dc-summary, .dc-detail, .dc-meta > span) { color: #dce6ff; }
+[data-theme="dark"] .dc-meta a { color: #f3f5fc; }
+[data-theme="dark"] .dc-course :focus-visible { outline-color: #f3f5fc; }
+[data-theme="dark"] .closing-section { background: var(--surface); }
+[data-theme="dark"] .closing-art path[stroke="#0751F8"] { stroke: #5c89ff; }
+[data-theme="dark"] .dima-origin { border-top-color: var(--line); }
+[data-theme="dark"] .closing-copy .dima-origin p[lang="ar"] { color: var(--primary); }
+[data-theme="dark"] .closing-copy .dima-origin .dima-origin-translation { color: var(--ink); }
+[data-theme="dark"] .dima-origin figcaption { color: var(--muted); }
+[data-theme="dark"] .dima-origin figcaption a { color: var(--primary); }
+[data-theme="dark"] .dima-origin figcaption a:hover { color: var(--primary-hover); }
+[data-theme="dark"] .site-footer nav a { color: var(--muted); }
+[data-theme="dark"] .site-footer nav a:hover { color: var(--ink); }
+
+@media (forced-colors: active) {
+  [data-theme="dark"] .ensemble-avatar { outline: 1px solid CanvasText; }
+  [data-theme="dark"] .dp-tabs button[aria-selected="true"] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}

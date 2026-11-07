@@ -1,0 +1,40 @@
+/* Wide screens need a readable working scale, not a fixed 1240px island.
+   Only the signed-in workspace (and its sibling session UI) opts into these tokens.
+   1280px and below keeps the incumbent layout; 1920px uses 1.4px per type unit.
+   No browser/CSS zoom or transforms: controls reflow at their real layout size. */
+@media (min-width: 1280px) {
+  .account-root:has(.workspace) {
+    --workspace-type-unit: clamp(1px, calc(.0625vw + .2px), 1.5px);
+    --workspace-sidebar-width: calc(224 * var(--workspace-type-unit));
+    --workspace-gutter: clamp(40px, 2.9vw, 60px);
+  }
+  .account-root .workspace { grid-template-columns: var(--workspace-sidebar-width) minmax(0, 1fr); font-size: calc(16 * var(--workspace-type-unit)); }
+  .workspace .workspace-content { max-width: calc(1240 * var(--workspace-type-unit)); padding: 40px var(--workspace-gutter) 60px; }
+  .workspace .workspace-topbar, .workspace .workspace-footer { padding-inline: var(--workspace-gutter); }
+  .workspace .workspace-sidebar { padding-inline: clamp(18px, 1.25vw, 30px); }
+  .workspace-sidebar .account-brand { width: calc(140 * var(--workspace-type-unit)); max-width: 100%; }
+  .workspace .account-nav-link { gap: calc(12 * var(--workspace-type-unit)); }
+  .workspace .account-nav-link > svg { width: calc(20 * var(--workspace-type-unit)); height: calc(20 * var(--workspace-type-unit)); }
+  .workspace .sidebar-account { gap: 14px; }
+  .workspace .sidebar-account .dima-avatar { width: calc(36 * var(--workspace-type-unit)); height: calc(36 * var(--workspace-type-unit)); }
+  .workspace label { font-size: calc(14 * var(--workspace-type-unit)); }
+  .workspace .learning-catalog-grid, .workspace .learning-enrollment-grid { gap: clamp(24px, 1.6vw, 40px); }
+  .workspace .learning-course-art { height: calc(196 * var(--workspace-type-unit)); padding: calc(25 * var(--workspace-type-unit)) calc(28 * var(--workspace-type-unit)); }
+  .workspace .learning-course-art > svg { width: calc(30 * var(--workspace-type-unit)); height: calc(30 * var(--workspace-type-unit)); }
+  .workspace .learning-course-copy { padding: calc(28 * var(--workspace-type-unit)); }
+  .workspace .learning-search input { max-width: calc(480 * var(--workspace-type-unit)); }
+  .workspace .learning-course-heading { max-width: calc(860 * var(--workspace-type-unit)); }
+  .workspace .plan-workspace, .workspace .plan-review { max-width: calc(1040 * var(--workspace-type-unit)); }
+  .workspace .learning-getting-started { max-width: calc(920 * var(--workspace-type-unit)); }
+  .workspace .learning-editor { max-width: calc(900 * var(--workspace-type-unit)); }
+  .workspace .sharing-form { max-width: calc(780 * var(--workspace-type-unit)); }
+  .workspace .workspace-help { max-width: calc(760 * var(--workspace-type-unit)); }
+  .workspace .focus-active { max-width: calc(780 * var(--workspace-type-unit)); }
+  .workspace .focus-clock-stage { max-width: calc(520 * var(--workspace-type-unit)); }
+  .workspace .rooms-root { max-width: none; }
+  .workspace .rooms-intro p { max-width: calc(650 * var(--workspace-type-unit)); }
+  .workspace .room-consent { max-width: calc(800 * var(--workspace-type-unit)); }
+  .account-root .focus-session-strip { left: calc(var(--workspace-sidebar-width) + 24px); }
+  .account-root:has(.workspace) .focus-dialog { width: min(calc(560 * var(--workspace-type-unit)), calc(100vw - 48px)); }
+  .account-root:has(.workspace) .learning-completion { width: min(calc(520 * var(--workspace-type-unit)), calc(100vw - 48px)); }
+}

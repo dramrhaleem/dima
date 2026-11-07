@@ -1,0 +1,42 @@
+<!doctype html>
+<!-- Dima's local learning workspace. Catalog-informed components are adapted in ../ui/.
+     Approved logo geometry is preserved. Task completion, personal time and ranking remain separate. -->
+<html lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="../assets/logo/icon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0751F8">
+  <title>Today · ديمة</title>
+  <link rel="stylesheet" href="../foundations/tokens.css">
+  <link rel="stylesheet" href="../ui/dima-ui.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="../ui/dima-ui.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body class="workspace-v2">
+  <a class="skip" href="#main">Skip to content</a>
+  <aside class="sidebar">
+    <a href="landing.html" class="brand" aria-label="Dima overview"><img src="../assets/logo/logo-horizontal.svg" alt="ديمة"></a>
+    <nav id="desktop-nav" aria-label="Main navigation"></nav>
+    <div class="sidebar-bottom">
+      <a href="../studio.html" class="nav-item" data-icon="grid">Component studio</a>
+      <button class="nav-item" data-view="settings" data-icon="settings">Settings</button>
+      <div class="profile"><span class="avatar" aria-hidden="true">D</span><div><strong>Demo learner</strong><small>Private workspace</small></div></div>
+    </div>
+  </aside>
+  <div class="app">
+    <header class="topbar">
+      <a href="landing.html" class="mobile-brand" aria-label="Dima overview"><img src="../assets/logo/logo-horizontal.svg" alt="ديمة"></a>
+      <span class="desktop-breadcrumb">Your space <span aria-hidden="true">/</span> <strong id="breadcrumb">Today</strong></span>
+      <button id="command-trigger" class="command-trigger" data-action="commands" aria-label="Search pages and actions. Control or Command K" aria-haspopup="dialog" data-icon="search"><span>Go anywhere</span><kbd aria-hidden="true">Ctrl K</kbd></button>
+      <div class="save-status"><span class="demo-tag">Local demo</span><span id="save-status">This device only</span></div>
+    </header>
+    <main id="main" tabindex="-1"></main>
+    <footer class="app-footer"><span>Sample learning data · No account or cloud sync</span><a href="landing.html">About Dima</a><a href="../studio.html">Component studio</a></footer>
+  </div>
+  <section id="session-rail" class="session-rail" aria-label="Focus session"></section>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation"></nav>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

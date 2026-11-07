@@ -1,0 +1,2 @@
+-- Intentionally empty. No fixed accounts or credentials in version control.
+-- tests/backend/verify.mjs creates clearly synthetic local fixtures via real Auth.

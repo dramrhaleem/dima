@@ -1,0 +1,16 @@
+DIMA_B0_ENABLED=false
+SUPABASE_URL=http://127.0.0.1:54321
+SUPABASE_ANON_KEY=replace_with_local_anon_key
+DIMA_CLIENT_ORIGINS=http://127.0.0.1:4174,http://localhost:4174,http://127.0.0.1:8787,http://localhost:8787,http://127.0.0.1:3000,http://localhost:3000
+
+DIMA_APP_ORIGIN=http://127.0.0.1:8787
+DIMA_GOOGLE_ENABLED=false
+
+# Server only. Never use a NEXT_PUBLIC_ or VITE_ prefix.
+SUPABASE_SERVICE_ROLE_KEY=replace_with_server_service_role_key
+
+# Server only; generate locally with pnpm configure:time.
+DIMA_JOBS_TOKEN=replace_with_private_job_dispatch_token
+
+# Server only. Local setup reuses the project signing key; never expose this value.
+DIMA_REALTIME_SIGNING_SECRET=replace_with_local_project_signing_secret

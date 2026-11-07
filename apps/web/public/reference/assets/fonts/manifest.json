@@ -1,0 +1,42 @@
+[
+  {
+    "family": "Manrope",
+    "file": "manrope-latin.woff2",
+    "source": "https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggexSg.woff2",
+    "css_source": "https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap",
+    "license_source": "https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/OFL.txt",
+    "subset": "latin",
+    "sha256": "8c2def024c1bf31aacf3624ae3c4d701269b4ec3dc765c04830839f0d36b2d9e",
+    "bytes": 24532,
+    "retrieved": "2026-10-31"
+  },
+  {
+    "family": "Noto Sans Arabic",
+    "file": "noto-sans-arabic.woff2",
+    "source": "https://fonts.gstatic.com/s/notosansarabic/v33/nwpCtLGrOAZMl5nJ_wfgRg3DrWFZWsnVBJ_sS6tlqHHFlj4wv4r4xA.woff2",
+    "css_source": "https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap",
+    "license_source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosansarabic/OFL.txt",
+    "subset": "arabic",
+    "sha256": "ce85091f020920b65762b387b194ef59457ea5b25b760f2dcc35240a94bb8669",
+    "bytes": 165960,
+    "retrieved": "2026-10-31"
+  },
+  {
+    "family": "Manrope",
+    "file": "Manrope-Variable.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/manrope/Manrope%5Bwght%5D.ttf",
+    "license": "SIL OFL 1.1; bundled license files",
+    "sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6",
+    "bytes": 164700,
+    "retrieved": "2026-10-31"
+  },
+  {
+    "family": "NotoSansArabic",
+    "file": "NotoSansArabic-Variable.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosansarabic/NotoSansArabic%5Bwdth%2Cwght%5D.ttf",
+    "license": "SIL OFL 1.1; bundled license files",
+    "sha256": "63111b5b2e074dd48cc67692e0a2726d86ee94c1c37fe8598257b7b4e87e869e",
+    "bytes": 844676,
+    "retrieved": "2026-10-31"
+  }
+]

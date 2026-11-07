@@ -1,0 +1,98 @@
+[
+  {
+    "demoId": 5800,
+    "dimaName": "Path field",
+    "author": "uniquesonu",
+    "sourceUrl": "https://21st.dev/@uniquesonu/components/animated-svg-background",
+    "retrieved": "2026-10-31",
+    "method": "Official21st connector get_component",
+    "adaptation": "Independent implementation of animated SVG-path pattern; no upstream path geometry",
+    "licenseEvidence": "Not established",
+    "rawReference": "raw/5800.json",
+    "sourceReference": "original/5800-component.tsx"
+  },
+  {
+    "demoId": 13448,
+    "dimaName": "Product preview",
+    "author": "ruixen.ui",
+    "sourceUrl": "https://21st.dev/@ruixen.ui/components/preview-switch-hero",
+    "retrieved": "2026-10-31",
+    "method": "Official21st connector get_component",
+    "adaptation": "Independent implementation of switching product previews; original Dima composition and sample interactions",
+    "licenseEvidence": "Not established",
+    "rawReference": "raw/13448.json",
+    "sourceReference": "original/13448-component.tsx"
+  },
+  {
+    "demoId": 26725,
+    "dimaName": "Magnetic action",
+    "author": "mohammadshehadeh",
+    "sourceUrl": "https://21st.dev/@mohammadshehadeh/components/magnetic-button",
+    "retrieved": "2026-10-31",
+    "method": "Official21st connector get_component",
+    "adaptation": "Bounded4px label attraction; stable target; native pointer and accessibility behavior",
+    "licenseEvidence": "MIT, component page and source notice",
+    "rawReference": "raw/26725.json",
+    "sourceReference": "original/26725-component.tsx"
+  },
+  {
+    "demoId": 920,
+    "dimaName": "Task completion ring",
+    "author": "dillionverma",
+    "sourceUrl": "https://21st.dev/@dillionverma/components/animated-circular-progress-bar",
+    "retrieved": "2026-10-31",
+    "method": "Official21st connector get_component",
+    "adaptation": "Native accessible SVG progress, actual task completion; no arbitrary cycling",
+    "licenseEvidence": "MIT, component page",
+    "rawReference": "raw/920.json",
+    "sourceReference": "original/920-component.tsx"
+  },
+  {
+    "demoId": 2075,
+    "dimaName": "Command navigation",
+    "author": "rafa-porto",
+    "sourceUrl": "https://21st.dev/@rafa-porto/components/command-palette",
+    "retrieved": "2026-10-31",
+    "method": "Official21st connector get_component",
+    "adaptation": "Independent native-dialog navigation with searchable real routes; no upstream layout/assets",
+    "licenseEvidence": "Not established; web page404, official connector retrieval succeeded",
+    "rawReference": "raw/2075.json",
+    "sourceReference": "original/2075-component.tsx"
+  },
+  {
+    "demoId": 5526,
+    "dimaName": "Course explorer",
+    "author": "vaib215",
+    "sourceUrl": "https://21st.dev/@vaib215/components/expanding-cards",
+    "retrieved": "2026-10-31",
+    "method": "Official21st connector get_component",
+    "adaptation": "Independent disclosure panels for the two seed courses, pointer/keyboard/touch",
+    "licenseEvidence": "Not established",
+    "rawReference": "raw/5526.json",
+    "sourceReference": "original/5526-component.tsx"
+  },
+  {
+    "demoId": 776,
+    "dimaName": "Step indicator",
+    "author": "originui",
+    "sourceUrl": "https://21st.dev/@originui/components/stepper",
+    "retrieved": "2026-10-31",
+    "method": "Official21st connector get_component",
+    "adaptation": "Native ordered-step indicator, explicitly tied to actual flow state",
+    "licenseEvidence": "MIT, component page",
+    "rawReference": "raw/776.json",
+    "sourceReference": "original/776-component.tsx"
+  },
+  {
+    "demoId": 23571,
+    "dimaName": "Text reveal",
+    "author": "ddoemonn",
+    "sourceUrl": "https://21st.dev/@ddoemonn/components/text-reveal",
+    "retrieved": "2026-10-31",
+    "method": "Official21st connector get_component",
+    "adaptation": "Native short visible-default reveal, one message at a time",
+    "licenseEvidence": "MIT, component page",
+    "rawReference": "raw/23571.json",
+    "sourceReference": "original/23571-component.tsx"
+  }
+]

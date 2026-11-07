@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#FAF9F6"><meta name="description" content="Dima brings your courses into one thoughtful plan. Explore a local interactive prototype for learning, planning and finding your rhythm again.">
+  <title>Small steps. Your own rhythm. · Dima</title>
+  <link rel="icon" href="../assets/app-icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../foundations/tokens.css">
+  <link rel="stylesheet" href="../ui/dima-ui.css">
+  <link rel="stylesheet" href="../ui/preview-switcher.css">
+  <link rel="stylesheet" href="../ui/course-explorer.css">
+  <link rel="stylesheet" href="landing-v2.css">
+  <script src="../ui/dima-ui.js" defer></script>
+  <script src="../ui/preview-switcher.js" defer></script>
+  <script src="../ui/course-explorer.js" defer></script>
+  <script src="landing-v2.js" defer></script>
+</head>
+<body>
+  <a class="landing-skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand-link" href="landing.html" aria-label="Dima home"><img src="../assets/logo/logo-horizontal.svg" width="160" height="68" alt="ديمة"></a>
+    <nav aria-label="Main navigation"><a href="index.html#library">Course library</a><a href="../studio.html">Design studio</a><button type="button" data-motion-toggle>Pause motion</button></nav>
+    <a class="button button-small" href="index.html">Open demo <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+  </header>
+  <main id="main">
+    <section class="hero section-width" aria-labelledby="hero-heading">
+      <div class="hero-copy">
+        <h1 id="hero-heading">Small steps.<br>Real life.<br><span>Your rhythm.</span></h1>
+        <p>Bring your courses into one thoughtful plan. Know what comes next. Keep what you’ve done. Find your way back.</p>
+        <div class="hero-actions"><a class="button button-primary" href="index.html#setup" data-magnetic>Build your plan <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a><a class="quiet-link" href="#experience">Try a small step <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14m-5-5 5 5 5-5"/></svg></a></div>
+        <p class="hero-note">Interactive prototype. No account needed.<br>Your demo progress stays on this device.</p>
+        <div class="hero-signature" aria-hidden="true"><span></span><span></span><p>A little, often.</p></div>
+      </div>
+      <div class="hero-stage" id="experience">
+        <dima-path-field class="hero-paths" aria-hidden="true"></dima-path-field>
+        <svg class="hero-route" viewBox="0 0 600 680" fill="none" aria-hidden="true"><path class="route-base" d="M-30 560H90Q132 560 132 520V492Q132 458 164 458H239Q270 458 270 419V382Q270 348 302 348H349Q385 348 385 308V240Q385 202 423 202H477Q515 202 515 164V-30"/><path class="route-travel" d="M-30 560H90Q132 560 132 520V492Q132 458 164 458H239Q270 458 270 419V382Q270 348 302 348H349Q385 348 385 308V240Q385 202 423 202H477Q515 202 515 164V-30"/></svg>
+        <div class="stage-caption"><span>Learn. Plan. Begin again.</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></div>
+        <dima-preview-switcher app-href="index.html#setup"></dima-preview-switcher>
+        <div class="stage-base"><span class="stage-mark" aria-hidden="true"></span><span>Progress has more than one shape.</span></div>
+      </div>
+    </section>
+
+    <section class="how-section section-width" aria-labelledby="how-heading">
+      <div class="how-intro"><h2 id="how-heading">Make room<br>for <span>the next step.</span></h2><p>You already have the courses. Dima gives the work a place in your day.</p><a class="quiet-link" href="index.html#today">Explore Today <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a></div>
+      <div class="how-sequence">
+        <article><div class="sequence-marker" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h6l2 2 2-2h6v14h-6l-2 2-2-2H4zM12 7v14"/></svg></div><div><h3>Bring your learning together.</h3><p>Choose a library offering or build a private course outline. Keep the order of the work clear.</p></div></article>
+        <article><div class="sequence-marker" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5h14v15H5zM8 3v4m8-4v4M5 10h14m-10 4h2m3 0h2"/></svg></div><div><h3>Give it a realistic rhythm.</h3><p>Turn an intention into a daily agenda, with one shared time budget across your courses.</p></div></article>
+        <article><div class="sequence-marker" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13v4h4M6 16a7 7 0 1 0-1-7M9 12l2 2 4-4"/></svg></div><div><h3>Keep your place. Keep going.</h3><p>Finish a task, record a session, or review a different pace. Your completed work stays with you.</p></div></article>
+      </div>
+    </section>
+
+    <section class="return-section" aria-labelledby="return-heading">
+      <div class="return-inner section-width">
+        <div class="return-copy"><h2 id="return-heading">Missed a day?<br>You haven’t<br><span>lost your way.</span></h2><p>Some days take a different turn. Compare a later target with a larger workload, then choose what fits your life.</p><a class="button button-paper" href="index.html#recovery">Explore recovery <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a></div>
+        <div class="return-diagram" role="img" aria-label="A winding path continues past a pause to the next step. Completed work is kept.">
+          <svg viewBox="0 0 570 440" fill="none" aria-hidden="true"><path class="return-track" d="M10 370H90Q120 370 120 340V295Q120 265 150 265H185Q218 265 218 295V302Q218 327 248 327H275Q307 327 307 294V221Q307 190 338 190H380Q410 190 410 160V106Q410 76 440 76H555"/><path class="return-done" d="M10 370H90Q120 370 120 340V295Q120 265 150 265H185Q218 265 218 295V302Q218 327 248 327H275"/><circle cx="65" cy="370" r="9" fill="#FAF9F6"/><circle cx="275" cy="327" r="12" fill="#FF650A" stroke="#0751F8" stroke-width="4"/><circle cx="497" cy="76" r="10" fill="#FAF9F6"/></svg>
+          <span class="route-label label-kept">What you’ve done stays.</span><span class="route-label label-pause">Life happens here.</span><span class="route-label label-next">Your next step.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="library-section section-width" aria-labelledby="library-heading">
+      <div class="section-heading"><div><h2 id="library-heading">Two places to begin.<br><span>Room for your own.</span></h2><p>Explore our first seed offerings, or make a private outline for any course you’re taking.</p></div><a class="quiet-link" href="index.html#library">Browse the library <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a></div>
+      <dima-course-explorer library-href="index.html#library"></dima-course-explorer>
+      <p class="provider-note">Learning happens at the original provider. This prototype does not enroll you or synchronize provider progress. Seed course outlines are pending review.</p>
+    </section>
+
+    <section class="own-way section-width" aria-labelledby="own-way-heading">
+      <div class="own-way-type"><h2 id="own-way-heading">A shared spark.<br><span>Your own pace.</span></h2></div><div class="own-way-copy"><p>Study privately, record a work session, or explore the rules for optional shared rankings. Time spent and course progress remain separate measures.</p><a class="quiet-link" href="index.html#boards">Explore the ranking rules <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a><p class="plain-note">No live community or account service is connected in this prototype.</p></div>
+    </section>
+
+    <section class="closing-section section-width" aria-labelledby="closing-heading">
+      <div class="closing-art" aria-hidden="true"><svg viewBox="0 0 310 260" fill="none"><path d="M-30 246H48Q78 246 78 216V202Q78 172 109 172H141Q169 172 169 142V114Q169 84 201 84H233Q265 84 265 53V-16" stroke="#0751F8" stroke-width="60"/><path d="M8 260H78Q108 260 108 230V218Q108 200 139 200H171Q199 200 199 170V142Q199 112 231 112H263Q295 112 295 81V12" stroke="#FF650A" stroke-width="12"/></svg></div>
+      <div class="closing-copy"><h2 id="closing-heading">A little, often.<br>A path that’s yours.</h2><p>Dima evokes steady, gentle rain. A quiet appreciation for consistent small deeds: learning that grows through returning.</p><a class="button button-primary" href="index.html#setup" data-magnetic>Take your first step <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a></div>
+    </section>
+  </main>
+  <footer class="site-footer section-width"><a href="landing.html" aria-label="Dima home"><img src="../assets/logo/logo-horizontal.svg" width="120" height="51" alt="ديمة"></a><p>Visual identity &amp; interaction prototype</p><nav aria-label="Footer"><a href="../studio.html">Component studio</a><a href="index.html#settings">Privacy in the demo</a></nav></footer>
+</body>
+</html>

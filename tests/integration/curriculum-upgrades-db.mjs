@@ -1,0 +1,40 @@
+// Essential commit-boundary checks, isolated fixtures and catalog writes roll back.
+import assert from 'node:assert/strict';
+import {randomUUID,createHash} from 'node:crypto';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {spawnSync,execFileSync} from 'node:child_process';
+const labels=JSON.parse(execFileSync('docker',['inspect','dima-b0-db','--format','{{json .Config.Labels}}'],{encoding:'utf8'}));
+assert.equal(labels['com.docker.compose.project'],'dima-b0');
+assert.equal(labels['com.docker.compose.project.config_files'],process.cwd()+'/scripts/local-backend/compose.yaml');
+const owner=randomUUID(),enrollment=randomUUID();
+const sql=`BEGIN;
+INSERT INTO auth.users(id,email) VALUES('${owner}','upgrade-${owner}@example.test');
+INSERT INTO public.account_profiles(user_id,display_name,timezone,intent,appearance,onboarded,revision) VALUES('${owner}','Upgrade fixture','UTC','learning','light',true,1);
+DO $test$ DECLARE target jsonb; saved jsonb; pre jsonb; command jsonb; result jsonb; initial jsonb; upgraded jsonb; op uuid:=gen_random_uuid(); apply_op uuid:=gen_random_uuid(); preview_id uuid:=gen_random_uuid();
+BEGIN
+ SELECT v.snapshot INTO STRICT target FROM public.catalog_offerings c JOIN public.curriculum_versions v ON v.id=c.current_version_id WHERE c.id='cs50-business';
+ initial=jsonb_build_object('revision',1,'enrollments',jsonb_build_array(jsonb_build_object('id','${enrollment}','offeringId','cs50-business','snapshot',jsonb_set(target,'{version}','"saved-old"'),'taskIds','[]'::jsonb,'completions','[]'::jsonb)));
+ INSERT INTO public.learning_workspaces(user_id,revision,state) VALUES('${owner}',1,initial);
+ pre=jsonb_build_object('id',preview_id,'enrollmentId','${enrollment}','baseRevision',2,'target',target,'unresolved','[]'::jsonb,'expiresAt',now()+interval '1 hour');
+ saved=jsonb_set(jsonb_set(initial,'{revision}','2'),'{upgradePreviews}',jsonb_build_array(pre));
+ command=jsonb_build_object('type','previewUpgrade','expectedRevision',1,'operationId',op);
+ result=public.commit_learning_command('${owner}',1,1,command,jsonb_build_object('state',saved,'previewId',preview_id));
+ IF result->'state'->'enrollments' IS DISTINCT FROM initial->'enrollments' THEN RAISE EXCEPTION 'Preview mutated enrollment';END IF;
+ -- Catalog withdrawal after preview must fail at final commit, even with a previously valid computed result.
+ upgraded=jsonb_set(jsonb_set(jsonb_set(saved,'{revision}','3'),'{enrollments,0,snapshot}',target),'{upgradePreviews}','[]');
+ UPDATE public.catalog_offerings SET status='unpublished' WHERE id='cs50-business';
+ BEGIN PERFORM public.commit_learning_command('${owner}',2,1,jsonb_build_object('type','applyUpgrade','expectedRevision',2,'operationId',apply_op,'previewId',preview_id),jsonb_build_object('state',upgraded)); RAISE EXCEPTION 'Stale published target accepted';EXCEPTION WHEN SQLSTATE 'PT409' THEN IF SQLERRM<>'CATALOG_CHANGED' THEN RAISE;END IF; END;
+ UPDATE public.catalog_offerings SET status='published' WHERE id='cs50-business';
+ BEGIN PERFORM public.commit_learning_command('${owner}',2,2,jsonb_build_object('type','applyUpgrade','expectedRevision',2,'operationId',apply_op,'previewId',preview_id),jsonb_build_object('state',upgraded));RAISE EXCEPTION 'Profile conflict accepted';EXCEPTION WHEN SQLSTATE 'PT409' THEN IF SQLERRM<>'PROFILE_CHANGED' THEN RAISE;END IF; END;
+ command=jsonb_build_object('type','applyUpgrade','expectedRevision',2,'operationId',apply_op,'previewId',preview_id);
+ result=public.commit_learning_command('${owner}',2,1,command,jsonb_build_object('state',upgraded));
+ IF result->'state'->'enrollments'->0->'snapshot' IS DISTINCT FROM target OR result->'state'->'enrollments'->0->>'id'<>'${enrollment}' THEN RAISE EXCEPTION 'Apply did not preserve enrollment';END IF;
+ result=public.commit_learning_command('${owner}',2,1,command,jsonb_build_object('state',upgraded));
+ IF (SELECT revision FROM public.learning_workspaces WHERE user_id='${owner}')<>3 OR (SELECT count(*) FROM public.learning_operations WHERE user_id='${owner}')<>2 THEN RAISE EXCEPTION 'Replay repeated mutation';END IF;
+ BEGIN PERFORM public.commit_learning_command('${owner}',2,1,command||jsonb_build_object('operationId',gen_random_uuid()),jsonb_build_object('state',upgraded));RAISE EXCEPTION 'Consumed preview reused';EXCEPTION WHEN SQLSTATE 'PT409' THEN NULL;END;
+ IF has_function_privilege('authenticated','public.commit_learning_command(uuid,integer,integer,jsonb,jsonb)','EXECUTE') OR has_function_privilege('service_role','public.commit_learning_before_upgrade(uuid,integer,integer,jsonb,jsonb)','EXECUTE') THEN RAISE EXCEPTION 'Commit guard bypass';END IF;
+ RAISE NOTICE 'PASS preview isolation, published-target race, profile revision conflict, apply identity, idempotent replay, consumed preview, service-only guard';
+END $test$;
+ROLLBACK;`;
+const r=spawnSync('docker',['exec','-i','dima-b0-db','psql','-U','postgres','-d','postgres','-qAt','-v','ON_ERROR_STOP=1'],{input:sql,encoding:'utf8'});assert.equal(r.status,0,r.stderr);console.log(r.stderr.trim());
+writeFileSync('docs/evidence/B6_CURRICULUM_UPGRADES_DB.json',JSON.stringify({checkedAt:new Date().toISOString(),environment:'local PostgreSQL, all fixtures rolled back',passed:true,migrationSha256:createHash('sha256').update(readFileSync('supabase/migrations/20261101051000_curriculum_upgrades.sql')).digest('hex'),checks:['preview isolation','catalog withdrawal race rejected at commit','profile revision conflict','enrollment identity preserved','idempotent replay','consumed preview rejected','service-only guarded RPC']},null,2)+'\n');

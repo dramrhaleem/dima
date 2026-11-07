@@ -1,0 +1,11 @@
+{
+  "prompt": "Deterministic PNG export rendered with Inkscape from assets/app-icons/android-adaptive-monochrome.svg. This is an origin note, not an image-generation prompt. The source contains actual controlled native Dima artwork, derived from the approved raster sources with flat palette normalization. No generative image model was used for this export, and raster pixels are unchanged by provenance recording.",
+  "provenance_kind": "deterministic-vector-render",
+  "asset": "assets/app-icons/android-adaptive-monochrome-432.png",
+  "asset_sha256": "756f24b95da0063f913c0fe10e48c9eebc4ba5c441bde0addd599e33183e9cfc",
+  "original_generation_prompt_claimed": false,
+  "raster_modified_by_metadata_recording": false,
+  "vector_source": "assets/app-icons/android-adaptive-monochrome.svg",
+  "vector_source_sha256": "44f172e44acfe159c8425ed187fee9c9437c0a4116f3b975c70a27b3c571f24a",
+  "renderer": "Inkscape"
+}

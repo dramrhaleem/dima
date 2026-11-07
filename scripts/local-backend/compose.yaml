@@ -1,0 +1,132 @@
+# Local development Auth/Postgres/REST with captured SMTP; no external email delivery.
+name: dima-b0
+services:
+  db:
+    image: postgres:17-alpine@sha256:f02121de6f74d30d8a94cd1d9584125e2178d7e6c377d8130112d4e52d867995
+    container_name: dima-b0-db
+    mem_limit: 192m
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: postgres
+    command: [postgres, -c, shared_buffers=32MB, -c, max_connections=30, -c, wal_level=logical, -c, max_replication_slots=5, -c, max_wal_senders=5, -c, max_wal_size=128MB, -c, min_wal_size=32MB, -c, max_slot_wal_keep_size=64MB, -c, checkpoint_timeout=60s]
+    ports: ["127.0.0.1:54322:5432"]
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ${DIMA_REPO_ROOT}/scripts/local-backend/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U postgres -d postgres"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  auth:
+    image: supabase/gotrue:v2.197.0@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b
+    container_name: dima-b0-auth
+    env_file:
+      - path: ${DIMA_BACKEND_ROOT}/google.env
+        required: false
+    mem_limit: 128m
+    depends_on:
+      db: {condition: service_healthy}
+    ports: ["127.0.0.1:54323:9999"]
+    environment:
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: 9999
+      API_EXTERNAL_URL: http://127.0.0.1:54321/auth/v1
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: postgres://supabase_auth_admin:${POSTGRES_PASSWORD}@db:5432/postgres
+      GOTRUE_SITE_URL: http://127.0.0.1:8787
+      GOTRUE_URI_ALLOW_LIST: http://127.0.0.1:8787/**,http://localhost:8787/**
+      GOTRUE_DISABLE_SIGNUP: "false"
+      GOTRUE_JWT_SECRET: ${JWT_SECRET}
+      GOTRUE_JWT_EXP: 3600
+      GOTRUE_JWT_AUD: authenticated
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+      GOTRUE_JWT_ADMIN_ROLES: service_role
+      GOTRUE_JWT_ISSUER: http://127.0.0.1:54321/auth/v1
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
+      GOTRUE_MAILER_AUTOCONFIRM: "false"
+      GOTRUE_SMTP_HOST: mailpit
+      GOTRUE_SMTP_PORT: 1025
+      GOTRUE_SMTP_ADMIN_EMAIL: auth@dima.test
+      GOTRUE_SMTP_SENDER_NAME: Dima local development
+      GOTRUE_MAILER_OTP_LENGTH: 6
+      GOTRUE_MAILER_OTP_EXP: 600
+      GOTRUE_MAILER_TEMPLATES_CONFIRMATION: http://templates:8080/otp.html
+      GOTRUE_MAILER_TEMPLATES_MAGIC_LINK: http://templates:8080/otp.html
+      GOTRUE_EXTERNAL_PHONE_ENABLED: "false"
+      GOTRUE_RATE_LIMIT_EMAIL_SENT: 100
+      GOTRUE_RATE_LIMIT_SIGNUPS: 100
+      GOTRUE_DB_MAX_POOL_SIZE: 5
+    healthcheck:
+      test: [CMD, wget, --quiet, --tries=1, --spider, http://127.0.0.1:9999/health]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  rest:
+    image: postgrest/postgrest:v14.18@sha256:c7cd7e265a85b05248abf53f4473fcec7e327c282d0bd0cf60f1551996d09fcf
+    container_name: dima-b0-rest
+    mem_limit: 96m
+    depends_on:
+      db: {condition: service_healthy}
+    ports: ["127.0.0.1:54324:3000"]
+    environment:
+      PGRST_DB_URI: postgres://authenticator:${POSTGRES_PASSWORD}@db:5432/postgres
+      PGRST_DB_SCHEMAS: public
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: ${JWT_SECRET}
+      PGRST_DB_POOL: 5
+      PGRST_DB_MAX_ROWS: 100
+      PGRST_SERVER_HOST: 0.0.0.0
+      PGRST_LOG_LEVEL: error
+
+  mailpit:
+    image: axllent/mailpit:v1.33.0@sha256:9b3a463be15354c0f0eba91697d80e3e0d8a5623ef0e627cacc836bc17fd5231
+    container_name: dima-b0-mailpit
+    mem_limit: 64m
+    ports: ["127.0.0.1:54325:8025"]
+    environment:
+      MP_MAX_MESSAGES: 100
+  templates:
+    image: busybox:1.37.0@sha256:a7dbc319b1438115a207e11930dc4bb3e643dcb3ec0bdd694bb36cd8fad289ec
+    container_name: dima-b0-templates
+    mem_limit: 16m
+    command: [httpd, -f, -p, '8080', -h, /templates]
+    volumes: ["${DIMA_REPO_ROOT}/scripts/local-backend/templates:/templates:ro"]
+
+  realtime:
+    profiles: [realtime]
+    image: supabase/realtime:v2.143.3@sha256:768b559241dd234c4e8852c5c0f504e598b80f1df2ad4dd78d5486fbed2f17a2
+    container_name: dima-b0-realtime
+    mem_limit: 256m
+    depends_on:
+      db: {condition: service_healthy}
+    ports: ["127.0.0.1:54326:4000"]
+    env_file: ["${DIMA_BACKEND_ROOT}/realtime.env"]
+    environment:
+      PORT: 4000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: supabase_admin
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: postgres
+      DB_AFTER_CONNECT_QUERY: SET search_path TO _realtime
+      DB_POOL_SIZE: 2
+      API_JWT_SECRET: ${JWT_SECRET}
+      METRICS_JWT_SECRET: ${JWT_SECRET}
+      ERL_AFLAGS: +S 2:2 +A 2 -proto_dist inet_tcp
+      ERL_CRASH_DUMP: /dev/null
+      DNS_NODES: "''"
+      RLIMIT_NOFILE: 10000
+      APP_NAME: realtime
+      SEED_SELF_HOST: "false"
+      RUN_JANITOR: "true"
+      DISABLE_HEALTHCHECK_LOGGING: "true"
+      LOG_LEVEL: warning
+      MAX_CONNECTIONS: 250
+    logging:
+      driver: json-file
+      options: {max-size: 5m, max-file: '2'}
+
+volumes:
+  postgres-data:
+    name: dima-b0-postgres-data

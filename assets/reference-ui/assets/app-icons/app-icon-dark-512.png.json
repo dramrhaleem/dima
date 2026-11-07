@@ -1,0 +1,11 @@
+{
+  "prompt": "Deterministic PNG export rendered with Inkscape from assets/app-icons/app-icon-dark.svg. This is an origin note, not an image-generation prompt. The source contains actual controlled native Dima artwork, derived from the approved raster sources with flat palette normalization. No generative image model was used for this export, and raster pixels are unchanged by provenance recording.",
+  "provenance_kind": "deterministic-vector-render",
+  "asset": "assets/app-icons/app-icon-dark-512.png",
+  "asset_sha256": "8d5a3ee269e67326817089107c95eec55e155b131a90b5714610b17f9698a581",
+  "original_generation_prompt_claimed": false,
+  "raster_modified_by_metadata_recording": false,
+  "vector_source": "assets/app-icons/app-icon-dark.svg",
+  "vector_source_sha256": "3febc3d3711b775dbaca1299666c78455f960f5699617da1db7aeb7ae875b37e",
+  "renderer": "Inkscape"
+}

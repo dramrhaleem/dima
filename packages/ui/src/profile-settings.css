@@ -1,0 +1,25 @@
+.profile-preference-card{padding:24px;border:1px solid var(--line,#dfe5ed);border-radius:22px;background:var(--surface,#fff);margin:24px 0;max-width:800px}.profile-preference-card h2{margin:0 0 10px;font-size:22px}.profile-preference-card p{line-height:1.65}.profile-preference-card fieldset{border:0;margin:0;padding:0;display:grid;gap:16px;min-width:0}.profile-preference-card label{display:grid;gap:8px;font-weight:600}.profile-preference-card input:not([type=checkbox]),.profile-preference-card textarea,.profile-preference-card select{box-sizing:border-box;width:100%;padding:12px;border:1px solid #c9d3e1;border-radius:12px;background:#fff;color:#10192b;font:inherit}.profile-preference-card .profile-toggle{display:flex;align-items:flex-start;gap:10px;font-weight:500;line-height:1.5}.profile-toggle input{margin-top:5px;accent-color:#0751f8}.profile-handle-field{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.profile-handle-field span{color:#526078;font-weight:400}.profile-handle-field input{flex:1;min-width:160px}.profile-help{font-size: calc(13 * var(--workspace-type-unit, 1px));color:#526078;line-height:1.6}.profile-preview{padding:16px;background:#f3f6fb;border-radius:14px}.profile-preview p{margin:6px 0;font-size:14px}.profile-preference-card button{justify-self:start;padding:12px 18px;background:#0751f8;color:#fff;border:0;border-radius:12px;font:inherit;font-weight:600;cursor:pointer}.profile-preference-card button:disabled{opacity:.6;cursor:wait}.profile-preference-card .secondary{background:#eef2f8;color:#18324e}.profile-preference-card :focus-visible,.public-profile-page a:focus-visible{outline:3px solid #0751f8;outline-offset:3px}.public-profile-page{max-width:1000px;margin:auto;padding:28px 24px;color:#10192b}.public-profile-page header{display:flex;justify-content:space-between;align-items:center;gap:20px}.public-profile-card{margin:64px auto;padding:40px;max-width:580px;border:1px solid #e0e6ed;border-radius:28px;background:#fff}.public-profile-avatar{display:grid;place-items:center;width:72px;height:72px;border-radius:24px;background:#0751f8;color:#fff;font-size: calc(32 * var(--workspace-type-unit, 1px));font-weight:700}.public-profile-card h1{font-size: clamp(calc(28 * var(--workspace-type-unit, 1px)),5vw,calc(42 * var(--workspace-type-unit, 1px)));overflow-wrap:anywhere}.public-profile-bio{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7}.public-profile-page a{color:#0751f8}@media(max-width:600px){.profile-preference-card{padding:18px}.public-profile-card{padding:24px;margin-top:40px}}
+/* Match shared form controls without inheriting full-width checkbox sizing. */
+.community-root .profile-preference-card .profile-toggle{display:flex;align-items:flex-start;gap:12px;min-height:44px}
+.community-root .profile-preference-card .profile-toggle input[type="checkbox"]{width:20px;height:20px;min-width:20px;min-height:20px;flex:0 0 20px;padding:0;margin:3px 0 0}
+.community-root .profile-preference-card fieldset>label{margin:0}
+
+/* Preserve the light profile design; map its fixed colors to dark semantic roles. */
+[data-theme="dark"] .profile-preference-card input:not([type="checkbox"]),
+[data-theme="dark"] .profile-preference-card textarea,
+[data-theme="dark"] .profile-preference-card select { border-color: var(--control-border); background: var(--field); color: var(--ink); }
+[data-theme="dark"] .profile-toggle input { accent-color: var(--primary); }
+[data-theme="dark"] .profile-handle-field span,
+[data-theme="dark"] .profile-help { color: var(--muted); }
+[data-theme="dark"] .profile-preview { background: var(--surface-subtle); }
+[data-theme="dark"] .profile-preference-card button { background: var(--action); color: var(--on-action); }
+[data-theme="dark"] .profile-preference-card button:hover { background: var(--action-hover); }
+[data-theme="dark"] .profile-preference-card .secondary { background: var(--surface-subtle); color: var(--ink); }
+[data-theme="dark"] .profile-preference-card .secondary:hover { background: var(--surface-hover); }
+[data-theme="dark"] .profile-preference-card button:disabled { opacity: 1; background: var(--disabled-bg); color: var(--disabled-text); cursor: not-allowed; }
+[data-theme="dark"] .profile-preference-card :focus-visible,
+[data-theme="dark"] .public-profile-page a:focus-visible { outline-color: var(--focus); }
+[data-theme="dark"] .public-profile-page { color: var(--ink); }
+[data-theme="dark"] .public-profile-card { border-color: var(--line); background: var(--surface); }
+[data-theme="dark"] .public-profile-avatar { background: var(--action); color: var(--on-action); }
+[data-theme="dark"] .public-profile-page a { color: var(--primary); }

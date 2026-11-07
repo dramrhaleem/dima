@@ -1,0 +1,56 @@
+# Post030 delivery findings and candidate next step
+
+Status: bounded no-ACK fast-path implementation authorized by the parent agent after independent design review. Source review and focused local runtime checks passed; browser fidelity and load acceptance remain pending. Earlier alternatives below remain diagnostic history, not implemented policy.
+
+Probe4f313e23 completed both windows and cleanup but failed: JoinRound p95 was2197.55ms overall (4×20:2510.64ms;8×10:1324.14ms). Seventeen hint expectations missed10s, representing340 client deliveries; all later arrived. There was one snapshot HTTP error, zero observed database deadlocks and no cleanup failure. [Delivery diagnostics](B5_HINT_DELIVERY_DIAGNOSTICS_4f313e23.json) retain the exact stage/outcome records.
+
+## Known-claim budget exit
+
+Chain161 made three successful claims, published/ACKed two, then exited with19.419s remaining because the third known claim left less than the20s publish-plus-ACK reserve. That row was deliberately left leased. Chain173 completed four deliveries and exited before another claim with19.962s left. The window had435 claim RPCs,375 ACK RPCs and375 publishes, with no reported stage errors. These chains have no room identifiers, so they do not by themselves map each late receiver to a specific lease.
+
+A bounded release call could fit the first exit's remaining15s database allowance. Existing `fail_room_hint` is unsuitable for prompt recovery: it schedules exponential backoff of at least30s after the first attempt. A distinct matching-token yield would need to preserve pending data, remove only the caller's lease, avoid penalizing a never-published attempt, and schedule immediate eligibility. Even then, prompt delivery is not guaranteed: the bounded owner has exited, coalesced followers have already attached to that owner, and the next periodic dispatcher can be30s away. Release alone is therefore not a complete10s-delivery fix. Unknown claim responses cannot be released without a known token.
+
+## Committed-response fast path
+
+The smallest useful coverage is authenticated Room POST responses whose authoritative `data.room.id` exactly equals `receipt.roomId`. Those responses already contain the committed `hintVersion`, phase and public counts. Most own-room JoinRound/StartRun/intent actions qualify. No client-submitted version/count/phase is accepted.
+
+A bounded post-response publisher could coalesce these descriptors by room and highest version, publish the exact existing whitelist, then acknowledge that delivered version through a service-only, version-fenced outbox operation. It must never clear a newer pending version or steal a live dispatcher's claim. A failed publish/ACK or Worker termination leaves the durable outbox as recovery authority. Duplicate/out-of-order invalidations remain possible; receivers continue to refresh authoritative state.
+
+Coverage requiring fallback or additional SQL output:
+
+- A switch can change the source and destination; only the returned matching room has a descriptor. The source still needs durable recovery unless the same transaction returns a second trusted descriptor.
+- An owner/moderator may act on a room different from their current membership. `data.room` can describe the actor's own room, so exact room-ID matching is mandatory; otherwise retain the existing claim path.
+- Time POST responses expose room IDs through Sessions but no authoritative room hint version/counts. Preserve their current path or explicitly add internal committed descriptors; do not synthesize versions from Time revisions.
+- GETs and ordinary renewals currently do not schedule producers. Read-side settlement can still create durable versions; do not accidentally add a claim or broadcast per read/heartbeat.
+
+Fast publication must not become publication of every command separately. Removing claim latency also removes incidental coalescing and can amplify20–40-receiver refresh fanout. Keep a bounded per-room debounce/max-delay and bounded fast-path concurrency; measure messages and resulting reads. Shared state must remain plain descriptors/promise scheduling data, without cross-request I/O objects. Every owner remains within its original Worker lifetime. No pool, tenant limit, UI freshness or SLO change is included.
+
+The remaining JoinRound RPC tail is a separate measured issue. A fast hint path might reduce pool traffic, but could also increase refresh traffic if coalescing is weakened. The DB sampler and actual SQL timings must guide any read-path change; this proposal is not proof that delivery repair will solve command latency.
+
+## Smallest decoupled variant for combined review
+
+Avoid any ACK wait in the live publisher. A qualifying committed Room POST supplies a plain descriptor to a bounded highest-version coalescer, which calls the existing maintained HTTP publisher. Its durable outbox row remains pending; the normal dispatcher later publishes/ACKs as recovery. This deliberately permits duplicate invalidations and reduces the live storage coupling without a new SQL API.
+
+Use an explicit allowlist of successful non-replayed commands whose existing transaction emits a new room hint: own-room membership/control, intent, Run/JoinRound, edit/close, host offers/acceptance/claim, removal/ban/suspension, block/unblock and reactions. Exact receipt-room/descriptor-room equality remains mandatory. Renewals, report/reviewReport and unban are not automatically fast-published; a matching DTO alone does not prove a new event. Unsupported/replayed/mismatched rooms retain the existing durable claim path. Switch source and Time responses remain explicitly uncovered by this minimal variant.
+
+Only the covered room is removed from the immediate claim list. Failed publication, capacity exhaustion or Worker loss does not acknowledge or discard the durable row. The periodic path and its SQL leases remain unchanged; it may publish the same version later. No raw Request/Response/client enters shared state. Queue/key bounds, original owner lifetime, exact whitelist validation, delayed-old-response handling and concurrent workerd tests remain required.
+
+Before choosing coalescing constants, check the pinned tenant's event-rate accounting. As an illustrative bound, one publication per room per second can fan out to100 receiver deliveries per second across100 subscriptions, before recovery duplicates; this is not a claim that the provider charges that precise unit. A bounded debounce/max-delay must limit fanout rather than replace incidental claim coalescing with one broadcast per command. Measure actual delivered messages and resulting snapshot traffic in the next separately preserved probe.
+
+
+## Implemented policy and local functional evidence
+
+The live path performs no outbox SQL call. `room-hint-fast.ts` accepts only validated public metadata from an exact matching, successful non-replayed Room command response. `room-hint-live.ts` attaches each producer's bounded promise to its Worker lifetime. An uncovered room, source room during switching, Time command, or replay retains its previous durable claim path. Ordinary renewals and GETs gain no publisher call. The existing periodic dispatcher still publishes and acknowledges pending recovery, including duplicates of successfully live-published versions.
+
+- At most32 active/queued fast-path room owners and2 concurrent fast-path HTTP publications per isolate. Debounce and cooldown wait outside network permits. Watermarks are bounded to128 keys with120s validity.
+- Ordinary first coalescing is100ms; ordinary starts for a retained room watermark are at least2000ms apart. The greatest committed version replaces older queued data. An in-flight publication can be followed by a higher queued version within the same owner budget.
+- `startRun`, `close` and `suspendRoom` are the actual existing phase/closure command allowlist for urgent delivery, when their returned Room matches the receipt. There is no shared pause/resume/end command. An urgent descriptor bypasses debounce/cooldown and takes the next free permit ahead of ordinary waiters; active calls are never preempted. A newer ordinary payload can satisfy the owed urgent version without erasing that wakeup. A previously covered urgent version cannot bypass pacing.
+- Every owner has its original28s deadline, including queue waits. No fetch starts with less than5s left. Each fetch is aborted after at most5s; the permit is released before the owner settles. Capacity, timeout or error falls back to the untouched durable outbox, with no immediate retry after an error. Followers never extend the owner's deadline.
+- Highest-seen and successfully-published versions are distinct. Failed publication does not mark delivery; a later same-version request can retry. A final successful version check and owner-map detachment happen synchronously, preventing a last-microtask descriptor from disappearing behind a resolved owner.
+- Shared state contains plain descriptors, numeric watermarks, resolvers and completion promises. Fetch/timer work belongs to the original owner context. No Request, Response, stream, database client or secret is retained in the coalescer.
+
+The pinned Realtime service counts both HTTP ingress and recipient fanout in its sampled event counter. The existing100-events/s tenant limit is unchanged. Ordinary2s room pacing suggests roughly52–54 ingress-plus-recipient increments/s across100 subscribers before urgent traffic, recovery duplication or other isolates; it is not a global guarantee. The2s phase-display and10s hint-delivery targets remain unchanged. A slow active publication or overloaded host can still miss them. Real workerd, private Realtime and subsequent faithful-load evidence must establish the effect; unit tests alone do not.
+
+Focused integration now explicitly holds four durable SQL leases while eight real Worker requests publish to four official SDK receivers. It then measures an urgent StartRun observation, verifies the leases stayed pending/unchanged, and requires normal dispatcher recovery and acknowledgement. This distinguishes decoupled live delivery from a claim-path success. [The functional index](B5_FAST_FUNCTIONAL.json) records 8/8 held-lease/durable checks, 24/24 Rooms API groups and 9/9 private Realtime checks. A separate actual-workerd cross-request cooldown test also passed: the ordinary descriptor was pending for 200ms, then the subsequent urgent StartRun was received in 262ms, 802ms after the warm publication. The focused log window had no cross-request I/O, hanging-promise or never-response errors. These checks do not establish the load or global provider-rate targets.
+
+Concurrency qualification: the existing durable scheduler remains independent and can run up to2 drains per isolate, each publishing sequentially. Combined fast and durable work can therefore have up to4 concurrent publication calls per isolate, with additional instances possible across isolates. Urgent priority applies only to the fast queue. The two schedulers do not share a network semaphore or a global tenant-rate limiter. The next load evidence must include recovery overlap; the fast2-slot bound alone does not describe total service traffic.

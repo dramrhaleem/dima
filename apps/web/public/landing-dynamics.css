@@ -1,0 +1,35 @@
+/* Interaction-led landing motion. Never imported into the workspace or dark study. */
+.hero-stage .route-response{stroke:#ff9c5f;stroke-width:12;stroke-linecap:round;stroke-dasharray:.18 .82;opacity:0;pointer-events:none}
+.hero-stage .dp-task{transition:background-color 180ms ease}
+.hero-stage .dp-task:has(input:checked){background:#edf5ef}
+.hero-stage .dp-task:has(input:checked) strong{color:#176742}
+.hero-stage .dp-days label span{transition:background-color 180ms ease,color 180ms ease}
+.button svg,.quiet-link svg{transition:translate 180ms cubic-bezier(.16,1,.3,1)}
+@media(hover:hover) and (pointer:fine){.button:hover>svg,.quiet-link:hover>svg{translate:3px 0}}
+.ensemble-timer strong{font-variant-numeric:tabular-nums;transition:color 180ms ease}
+[data-social-demo][data-timer-state=running] .ensemble-timer strong{color:#0751f8}
+[data-social-demo][data-timer-state=complete] .ensemble-timer strong{color:#176742}
+.ensemble-seats b{transition:background-color 180ms ease,color 180ms ease}
+[data-social-demo][data-timer-state=running] .ensemble-seats b{background:#0751f8;color:#fff}
+[data-social-demo][data-timer-state=complete] .ensemble-seats b{background:#176742;color:#fff}
+/* One open path, not another task list. */
+.recovery-path{margin:0;min-width:0;width:100%;align-self:center}
+.recovery-path>svg{display:block;width:100%;height:auto;overflow:visible}
+.recovery-path path{fill:none;stroke-linejoin:round;stroke-linecap:round}
+.recovery-path-track{stroke:#dce6ff;stroke-width:2;stroke-dasharray:4 9;opacity:.48}
+.recovery-path-kept{stroke:#ff650a;stroke-width:17}
+.recovery-path-ahead{stroke:#ffb180;stroke-width:7;stroke-dasharray:1;stroke-dashoffset:0;opacity:.85}
+.recovery-path-traveller{stroke:#fff;stroke-width:13;stroke-dasharray:.001 1;stroke-dashoffset:0;opacity:0}
+.recovery-path-origin{fill:#fff}
+.recovery-path-pause{fill:#ff650a;stroke:#0751f8;stroke-width:4}
+.recovery-path-destination{fill:#dce6ff}
+.recovery-path text{font-family:var(--font-sans);font-size:16px;font-weight:650;fill:#fff}
+.recovery-path figcaption{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:12px;color:#dce6ff;font-size:calc(12 * var(--landing-unit));line-height:1.5}
+.recovery-path-replay{display:inline-flex;align-items:center;gap:8px;min-height:44px;flex-shrink:0;background:transparent;border:0;padding:8px 0;color:#fff;font:inherit;cursor:pointer;text-underline-offset:5px}
+.recovery-path-replay[hidden]{display:none}
+.recovery-path-replay:hover{text-decoration:underline}
+.recovery-path-replay svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7}
+[data-theme="dark"] .recovery-path-pause{stroke:#123b9d}
+@media(max-width:850px){.recovery-path{max-width:680px;justify-self:center}}
+@media(max-width:600px){.recovery-path figcaption{flex-wrap:wrap;font-size:12px;gap:6px}.recovery-path text{font-size:19px}.return-inner{gap:32px}.recovery-path>svg{margin-top:8px}}
+@media(prefers-reduced-motion:reduce){.hero-stage .route-response,.recovery-path-traveller{display:none}.hero-stage .dp-task,.hero-stage .dp-days label span,.button svg,.quiet-link svg,.ensemble-seats b,.ensemble-timer strong{transition:none!important}.button:hover>svg,.quiet-link:hover>svg{translate:none}}

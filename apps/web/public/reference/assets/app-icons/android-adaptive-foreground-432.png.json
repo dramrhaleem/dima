@@ -1,0 +1,11 @@
+{
+  "prompt": "Deterministic PNG export rendered with Inkscape from assets/app-icons/android-adaptive-foreground.svg. This is an origin note, not an image-generation prompt. The source contains actual controlled native Dima artwork, derived from the approved raster sources with flat palette normalization. No generative image model was used for this export, and raster pixels are unchanged by provenance recording.",
+  "provenance_kind": "deterministic-vector-render",
+  "asset": "assets/app-icons/android-adaptive-foreground-432.png",
+  "asset_sha256": "f929ba2dab39ee33aecf0c7c6282f7853125a2a76238cc40609a0ba77ff89414",
+  "original_generation_prompt_claimed": false,
+  "raster_modified_by_metadata_recording": false,
+  "vector_source": "assets/app-icons/android-adaptive-foreground.svg",
+  "vector_source_sha256": "f2e24e8e3ba138a25d189af7b37a80b48590ca23c025b3905649802467b12b50",
+  "renderer": "Inkscape"
+}

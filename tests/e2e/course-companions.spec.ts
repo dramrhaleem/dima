@@ -1,0 +1,53 @@
+import { test, expect } from '@playwright/test';
+import { randomUUID } from 'node:crypto';
+import { mkdirSync, readFileSync } from 'node:fs';
+import type { Offering } from '../../packages/contracts/src/learning';
+import { waitForLocalOtp } from '../helpers/local-mail.mjs';
+const catalog = JSON.parse(readFileSync(new URL('../../apps/web/src/server/data/catalog.json', import.meta.url), 'utf8')) as {offerings: Offering[]};
+import type { CourseLiveData } from '../../packages/contracts/src/course-live';
+
+const base = 'http://127.0.0.1:8787';
+test('companions advance automatically beside the matching module and lesson without celebrating initial load', async ({page,context})=>{
+ test.setTimeout(90000);
+ const email=`companions-ui-${randomUUID()}@example.test`, after=Date.now();
+ expect((await context.request.post(`${base}/api/v1/auth/otp`,{headers:{Origin:base},data:{email,next:'/app/courses'}})).status()).toBe(200);
+ const token=await waitForLocalOtp(email,{after});
+ expect((await context.request.post(`${base}/api/v1/auth/verify`,{headers:{Origin:base},data:{email,token,next:'/app/courses'}})).status()).toBe(200);
+ const account=(await(await context.request.get(`${base}/api/v1/me`)).json()).data;
+ expect((await context.request.patch(`${base}/api/v1/me`,{headers:{Origin:base,'X-Dima-Account-Id':account.accountId},data:{displayName:'Journey learner',timezone:'UTC',intent:'learning',appearance:'light',reducedMotion:false,onboarded:true,expectedRevision:account.profile?.revision??0,operationId:randomUUID()}})).status()).toBe(200);
+ const offering=catalog.offerings.find(o=>o.id==='google-project-management')!;
+ const first=offering.courses[0].modules[0], second=offering.courses[0].modules[1];
+ let learning=(await(await context.request.get(`${base}/api/v1/learning`)).json()).data;
+ const enrolled=await context.request.post(`${base}/api/v1/learning`,{headers:{Origin:base,'X-Dima-Account-Id':account.accountId},data:{type:'enroll',operationId:randomUUID(),expectedRevision:learning.state.revision,offeringId:offering.id,taskIds:[...first.tasks,...second.tasks].filter(t=>t.requirement==='required').map(t=>t.id),priorTaskIds:[],estimates:{},targetDate:learning.localDay}});
+ expect(enrolled.status()).toBe(200);learning=(await enrolled.json()).data;
+ const id=learning.state.enrollments[0].id, peer=randomUUID();
+ const beginning=Date.now();
+ let snapshot:CourseLiveData={accountId:account.accountId,offeringId:offering.id,version:offering.version,scopeId:'test-scope',title:offering.title,calculatedAt:new Date(beginning).toISOString(),refreshAfterSeconds:15,sharing:{enabled:false,revision:0,rankingEnabled:true},totalParticipants:1,truncated:false,rows:[{profileId:peer,displayName:'Nour',avatarUrl:null,percent:10,completedCount:1,totalCount:10,modules:[{moduleId:first.id,completedCount:1,totalCount:4},{moduleId:second.id,completedCount:0,totalCount:6}],latest:{taskId:first.tasks[0].id,taskTitle:first.tasks[0].title,moduleId:first.id,moduleTitle:first.title,completedAt:new Date(beginning-60000).toISOString(),kind:'new'}}]};
+ let reads=0;
+ await page.route('**/api/v1/courses/*/live?*',async route=>{reads++;await route.fulfill({json:{data:snapshot}});});
+ await page.clock.install();
+ await page.goto(`/app/courses/${id}`);
+ const panel=page.getByRole('region',{name:'Course companions',exact:true});
+ await expect(panel.getByText('Nour',{exact:true})).toBeVisible();
+ await expect(page.locator('.journey-burst')).toHaveCount(0);
+ await expect(page.locator(`#module-${first.id} .journey-module-peers`)).toContainText('Nour');
+ snapshot={...snapshot,calculatedAt:new Date(beginning+15000).toISOString(),rows:[{...snapshot.rows[0],percent:20,completedCount:2,modules:[{moduleId:first.id,completedCount:1,totalCount:4},{moduleId:second.id,completedCount:1,totalCount:6}],latest:{taskId:second.tasks[0].id,taskTitle:second.tasks[0].title,moduleId:second.id,moduleTitle:second.title,completedAt:new Date(beginning+10000).toISOString(),kind:'new'}}]};
+ const before=reads;
+ await page.clock.runFor(15000);
+ await expect.poll(()=>reads).toBeGreaterThan(before);
+ await expect(page.locator('.journey-person.just-advanced')).toHaveCount(1);
+ await expect(panel.getByText('20%',{exact:true})).toBeVisible();
+ await expect(page.locator(`#module-${second.id} .journey-module-peers`)).toContainText('Nour');
+ await expect(page.locator(`#module-${first.id} .journey-module-peers`)).toHaveCount(0);
+ await panel.getByRole('link',{name:second.title,exact:true}).click();
+ await expect(page.locator(`#module-${second.id}`).getByRole('button',{name:new RegExp(second.title)})).toHaveAttribute('aria-expanded','true');
+ await expect(page.locator(`#module-${second.id} .journey-task-peers`)).toContainText('Nour');
+ await page.clock.runFor(2000);
+ await expect(page.locator('.journey-burst')).toHaveCount(0);
+ mkdirSync('.impeccable/review',{recursive:true});
+ for(const width of [1280,390]){
+  await page.setViewportSize({width,height:920}); await page.evaluate(()=>window.scrollTo(0,0));
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.screenshot({path:`.impeccable/review/companions-${width}.png`,fullPage:true});
+ }
+});

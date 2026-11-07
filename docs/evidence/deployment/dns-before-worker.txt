@@ -1,0 +1,102 @@
+Name
+Type
+Content
+Proxy status
+TTL
+Tags
+Comment
+Details
+dima.study
+A
+54.149.79.189
+Proxied
+Auto
+—
+—
+—
+Edit
+dima.study
+A
+34.216.117.25
+Proxied
+Auto
+—
+—
+—
+Edit
+rsend.auth.dima.study
+CNAME
+rsend-euw1.forge.rmta.net
+DNS only
+1 hr
+—
+—
+—
+Edit
+send.auth.dima.study
+CNAME
+send.forge.rmta.net
+DNS only
+1 hr
+—
+—
+—
+Edit
+Selection unavailable
+dima.study
+MX
+route3.mx.cloudflare.net
+DNS only
+Auto
+—
+—
+42
+View
+Selection unavailable
+dima.study
+MX
+route2.mx.cloudflare.net
+DNS only
+Auto
+—
+—
+81
+View
+Selection unavailable
+dima.study
+MX
+route1.mx.cloudflare.net
+DNS only
+Auto
+—
+—
+21
+View
+Selection unavailable
+cf2024-1._domainkey.dima.study
+TXT
+"v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiweykoi+o48IOGuP7GR3X0MOExCUDY/BCRHoWBnh3rChl7WhdyCxW3jgq1daEjPPqoi7sJvdg5hEQVsgVRQP4DcnQDVjGMbASQtrY4WmB1VebF+RPJB2ECPsEDTpeiI5ZyUAwJaVX7r6bznU67g7LvFq35yIo4sdlmtZGV+i0H4cpYH9+3JJ78k" "m4KXwaf9xUJCWF6nxeD+qG6Fyruw1Qlbds2r85U9dkNDVAS3gioCvELryh1TxKGiVTkg4wqHTyHfWsp7KD3WQHYJn0RyfJJu6YEmL77zonn7p2SRMvTMP3ZEXibnC9gz3nnhR6wcYL8Q7zXypKTMD58bTixDSJwIDAQAB"
+DNS only
+Auto
+—
+—
+—
+Edit
+dima.study
+TXT
+"v=spf1 include:_spf.mx.cloudflare.net ~all"
+DNS only
+Auto
+—
+—
+—
+Edit
+resend._domainkey.auth.dima.study
+TXT
+"p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnykaLcZ4w4F2EjALxk3e8dhN/u0cTyOhdOmvH/B0+Up7EexycU307TkyfmUTWaxSZjRR25VSpEfKT56CBHkP4AZ8h9YVwKOlOuBXQBj3HuCj/5ikkMbbjVXFoc7dqHP0dsG+0PpeChYcnhrlfPgd+C/snHizwAM3P6N+xcGMAewIDAQAB"
+DNS only
+1 hr
+—
+—
+—
+Edit

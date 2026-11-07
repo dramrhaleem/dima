@@ -1,0 +1,4 @@
+.dima-avatar { display:inline-flex; flex-shrink:0; align-items:center; justify-content:center; width:36px; height:36px; overflow:hidden; border-radius:50%; background:var(--accent-soft,#fff0e6); color:var(--accent-text,#a64200); font-size: calc(14 * var(--workspace-type-unit, 1px)); font-weight:750; vertical-align:middle; }
+.dima-avatar img { width:100%; height:100%; object-fit:cover; }
+.dima-avatar-small { width:28px; height:28px; font-size: calc(12 * var(--workspace-type-unit, 1px)); }
+.dima-avatar-large { width:88px; height:88px; font-size: calc(30 * var(--workspace-type-unit, 1px)); }

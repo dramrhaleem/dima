@@ -1,0 +1,20 @@
+{
+  "status": "Prepared design derivatives only; no production activation",
+  "sources": [
+    {
+      "path": "apps/web/public/brand/logo-horizontal.svg",
+      "sha256": "ca26148c8111fba90b8d414875fc97c06d0627aa2ffe9d335c930f99a0d1b461"
+    },
+    {
+      "path": "apps/web/public/reference/assets/logo/icon.svg",
+      "sha256": "819a89e83647b312e0dc9e8356b272b5fdb1b1025d1fc1a54fa47fca5355e7a4"
+    }
+  ],
+  "geometry": "All paths, transforms, viewBoxes and proportions preserved. Only declared fills changed.",
+  "logoDarkColor": {
+    "ink": "#F3F5FC",
+    "blue": "#5C89FF",
+    "orange": "#FF650A"
+  },
+  "fonts": "Existing project Manrope and Noto Sans Arabic; unchanged WOFF2 copies. Existing project license records remain authoritative."
+}

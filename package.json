@@ -1,0 +1,58 @@
+{
+  "name": "dima",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">=22.12.0 <23"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @dima/web dev",
+    "build": "pnpm prepare:landing && node scripts/worker.mjs build",
+    "build:client": "pnpm --filter @dima/client-proof build",
+    "preview:worker": "node scripts/worker.mjs preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint apps packages tests scripts --max-warnings=0",
+    "test": "vitest run",
+    "test:api": "node tests/integration/foundation.mjs",
+    "test:browser": "playwright test",
+    "check": "pnpm typecheck && pnpm lint && pnpm test",
+    "backend:start": "node scripts/local-backend/start.mjs",
+    "backend:stop": "node scripts/local-backend/stop.mjs",
+    "test:backend": "node tests/backend/verify.mjs",
+    "configure:local": "node scripts/configure-local.mjs",
+    "prepare:landing": "node scripts/prepare-landing.mjs",
+    "test:accounts": "node tests/integration/account-database.mjs && node tests/integration/account-api.mjs && node tests/integration/auth-flow.mjs",
+    "configure:learning": "node scripts/configure-learning.mjs",
+    "test:learning": "node tests/integration/learning-api.mjs",
+    "test:recovery": "node tests/integration/recovery-api.mjs",
+    "test:time": "node tests/integration/time-api.mjs",
+    "configure:time": "node scripts/configure-time.mjs",
+    "jobs:local": "node scripts/local-backend/dispatch.mjs",
+    "jobs:once": "node scripts/local-backend/dispatch.mjs --once",
+    "configure:rooms": "node scripts/configure-rooms.mjs",
+    "backend:realtime": "node scripts/local-backend/realtime.mjs",
+    "test:rooms": "node tests/integration/rooms-api.mjs",
+    "test:realtime": "node tests/integration/realtime-transport.mjs",
+    "test:realtime:private": "node --experimental-strip-types tests/integration/rooms-realtime.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/node": "22.19.15",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@eslint/js": "10.0.1",
+    "eslint": "10.14.0",
+    "typescript-eslint": "8.72.1",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "vitest": "5.0.5",
+    "@playwright/test": "1.64.1"
+  },
+  "type": "module",
+  "pnpm": {
+    "overrides": {
+      "@opennextjs/cloudflare>glob": "14.0.2",
+      "@node-minify/core>glob": "14.0.2"
+    }
+  }
+}

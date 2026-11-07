@@ -1,0 +1,4 @@
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import hooks from 'eslint-plugin-react-hooks';
+export default tseslint.config({ ignores: ['**/.next/**','**/.open-next/**','**/dist/**','**/next-env.d.ts','apps/web/public/reference/**'] }, js.configs.recommended, { files: ['apps/web/public/landing-account.js'], languageOptions: { globals: { fetch:'readonly', document:'readonly', Node:'readonly' } } }, { rules: { 'no-empty': ['error', { allowEmptyCatch: true }] } }, ...tseslint.configs.recommended, { files: ['**/*.{ts,tsx}'], plugins: { 'react-hooks': hooks }, rules: { ...hooks.configs.recommended.rules } }, { files: ['**/*.mjs'], languageOptions: { globals: { process:'readonly', console:'readonly', fetch:'readonly', URL:'readonly', Buffer:'readonly', AbortSignal:'readonly', crypto:'readonly', setTimeout:'readonly' } } });

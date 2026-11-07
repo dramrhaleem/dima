@@ -1,0 +1,32 @@
+    <section class="together-section section-width" id="learn-together" aria-labelledby="together-heading">
+      <div class="together-copy">
+        <h2 id="together-heading">Your own focus.<br><span>A shared spark.</span></h2>
+        <p>Connect with friends, follow the progress they share, and compare your course progress on the leaderboard. When it’s time to study, join a room and focus together on a shared timer.</p>
+        <div class="together-actions"><a class="button button-primary" href="/app/rooms">Explore study rooms <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a><a class="quiet-link" href="/app/progress/circle">Find study partners <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a></div>
+        <p class="plain-note">You choose what to share with followers. Your study plan stays private. You can hide your name and score from leaderboards anytime.</p>
+        <a class="quiet-link" href="/app/progress/leaderboards">Explore leaderboards <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+      </div>
+      <div class="together-demo" data-social-demo aria-label="Interactive community example">
+        <div class="ensemble-heading"><span class="ensemble-symbol" aria-hidden="true"><svg viewBox="0 0 48 40"><path d="M2 31h11q5 0 5-5v-7q0-5 5-5h7q5 0 5-5V2"/><path d="M12 39h11q5 0 5-5v-7q0-5 5-5h7q5 0 5-5V10"/></svg></span><span>Better, together.</span><small>Interactive example</small></div>
+        <div class="ensemble-tabs" role="tablist" aria-label="Try learning together"><button type="button" role="tab" id="ensemble-progress-tab" aria-selected="true" aria-controls="ensemble-progress" data-ensemble-tab="progress">Course progress</button><button type="button" role="tab" id="ensemble-focus-tab" aria-selected="false" aria-controls="ensemble-focus" tabindex="-1" data-ensemble-tab="focus">Shared focus</button></div>
+        <section id="ensemble-progress" role="tabpanel" aria-labelledby="ensemble-progress-tab" data-ensemble-panel="progress" tabindex="0">
+          <div class="ensemble-intro"><h3>Small wins travel.</h3><p>An example course. Three different rhythms.</p></div>
+          <div class="ensemble-scale" aria-hidden="true"><span>Start</span><span>Halfway</span><span>Done</span></div>
+          <div class="ensemble-lanes">
+            <div class="ensemble-person is-you"><div class="ensemble-person-label"><strong>You</strong><span data-you-percent>25%</span></div><div class="ensemble-track" style="--position:25%" data-you-track><span class="ensemble-trail"></span><span class="ensemble-runner"><span class="ensemble-avatar">Y</span><span class="ensemble-burst" aria-hidden="true"></span></span></div></div>
+            <div class="ensemble-person"><div class="ensemble-person-label"><strong>Omar</strong><span>50%</span></div><div class="ensemble-track" style="--position:50%"><span class="ensemble-trail"></span><span class="ensemble-runner"><span class="ensemble-avatar">O</span></span></div></div>
+            <div class="ensemble-person is-orange"><div class="ensemble-person-label"><strong>Sara</strong><span>75%</span></div><div class="ensemble-track" style="--position:75%"><span class="ensemble-trail"></span><span class="ensemble-runner"><span class="ensemble-avatar">S</span></span></div></div>
+          </div>
+          <div class="ensemble-feedback" aria-live="polite" data-ensemble-status>Try a step. Watch your place move.</div>
+          <div class="ensemble-controls"><button class="button button-primary" type="button" data-ensemble-step>Complete a sample step <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></button><button class="ensemble-reset" type="button" data-ensemble-reset>Reset example</button></div>
+        </section>
+        <section id="ensemble-focus" role="tabpanel" aria-labelledby="ensemble-focus-tab" data-ensemble-panel="focus" tabindex="0" hidden>
+          <div class="ensemble-intro"><h3>Same moment. Your own work.</h3><p>A short preview of focusing together.</p></div>
+          <div class="ensemble-timer"><span>Sample focus round</span><strong data-ensemble-clock>00:30</strong><div class="ensemble-timer-track"><span data-ensemble-clock-progress></span></div></div>
+          <div class="ensemble-seats" aria-label="Illustrative participants"><span><b class="ensemble-avatar">Y</b>You</span><span><b class="ensemble-avatar">O</b>Omar</span><span><b class="ensemble-avatar">S</b>Sara</span></div>
+          <div class="ensemble-controls"><button class="button button-primary" type="button" data-ensemble-timer>Start 30-second preview <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 10 7-10 7Z"/></svg></button><button class="ensemble-reset" type="button" data-ensemble-timer-reset>Reset timer</button></div>
+          <p class="ensemble-timer-status" aria-live="polite" data-ensemble-timer-status>Try the timer. No room is joined.</p>
+        </section>
+        <p class="ensemble-disclaimer">Illustrative people and progress. Nothing here changes your account.</p>
+      </div>
+    </section>

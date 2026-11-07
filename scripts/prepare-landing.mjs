@@ -1,0 +1,70 @@
+// Deterministic adaptation of the approved landing; source assets remain immutable.
+import { readFileSync, writeFileSync, mkdirSync, cpSync } from 'node:fs';
+const base = 'assets/reference-ui';
+mkdirSync('apps/web/public/reference', { recursive: true });
+for (const dir of ['assets', 'foundations', 'ui']) cpSync(`${base}/${dir}`, `apps/web/public/reference/${dir}`, { recursive: true });
+mkdirSync('apps/web/public/reference/prototype', { recursive: true });
+for (const file of ['landing-v2.css', 'landing-v2.js']) cpSync(`${base}/prototype/${file}`, `apps/web/public/reference/prototype/${file}`);
+// Scale type with the public canvas; do not alter the preserved reference assets.
+const scaleType = css => css.replace(/font-size:(\d+(?:\.\d+)?)px/g, 'font-size:calc($1 * var(--landing-unit, 1px))').replace(/(font:[^;{}]*? )(\d+(?:\.\d+)?)px(?= )/g, '$1calc($2 * var(--landing-unit, 1px))');
+for (const path of ['ui/preview-switcher.css', 'ui/course-explorer.css', 'prototype/landing-v2.css']) {
+  writeFileSync(`apps/web/public/reference/${path}`, scaleType(readFileSync(`${base}/${path}`, 'utf8')));
+}
+// Adapt runtime-rendered course cards too; HTML replacements cannot reach their templates.
+let courseExplorer = readFileSync(`${base}/ui/course-explorer.js`, 'utf8');
+courseExplorer = courseExplorer.replaceAll('<br>', '<br> ');
+courseExplorer = courseExplorer.replaceAll('Seed offering · Outline review pending', 'Reviewed outline · Manual progress');
+courseExplorer = courseExplorer.replace("this.querySelectorAll('[data-library-link]').forEach(a => a.setAttribute('href', this.getAttribute('library-href') || 'index.html#library'));", "this.querySelectorAll('[data-library-link]').forEach((a, index) => a.setAttribute('href', ['/library/google-project-management', '/library/cs50-business'][index]));");
+writeFileSync('apps/web/public/reference/ui/course-explorer.js', courseExplorer);
+let html = readFileSync(`${base}/prototype/landing.html`, 'utf8');
+html = html.replaceAll('../assets/', '/reference/assets/').replaceAll('../foundations/', '/reference/foundations/').replaceAll('../ui/', '/reference/ui/').replaceAll('href="landing-v2.css"', 'href="/reference/prototype/landing-v2.css"').replaceAll('src="landing-v2.js"', 'src="/reference/prototype/landing-v2.js"');
+const destinations = { setup: '/auth?next=%2Fapp%2Ftoday', library: '/library', today: '/app/today', recovery: '/app/plan/recovery', boards: '/app/progress', settings: '/app/settings' };
+for (const [key, path] of Object.entries(destinations)) html = html.replaceAll(`index.html#${key}`, path);
+html = html.replaceAll('href="index.html"', 'href="/auth?next=%2Fapp%2Ftoday"').replace('Open demo', 'Get started');
+html = html.replaceAll('href="landing.html"', 'href="/"').replaceAll('href="../studio.html"', 'href="/auth"').replace('Design studio', 'Sign in').replace('Component studio', 'Sign in');
+html = html.replace('<link rel="icon" href="/reference/assets/app-icons/favicon.svg" type="image/svg+xml">', '<link rel="icon" href="/favicon.ico?v=20261101" sizes="16x16 32x32 48x48"><link rel="icon" href="/favicon-32.png?v=20261101" type="image/png" sizes="32x32"><link rel="icon" href="/favicon.svg?v=20261101" type="image/svg+xml" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20261101" type="image/png" sizes="1024x1024">');
+html = html.replace('Interactive prototype. No account needed.<br>Your demo progress stays on this device.', 'Plan your learning. Make time to focus.<br>Study on your own or join a shared room.');
+html = html.replace('No live community or account service is connected in this prototype.', 'Your plans stay private. Leaderboards start on; you can hide yourself anytime.');
+html = html.replace('This prototype does not enroll you or synchronize provider progress.', 'Dima does not enroll you or synchronize provider progress.');
+html = html.replace('Visual identity &amp; interaction prototype', 'Small steps. Your own rhythm. · Beta').replace('Privacy in the demo', 'Privacy').replace('href="/app/settings">Privacy', 'href="/privacy">Privacy');
+html = html.replace('Explore a local interactive prototype for learning, planning and finding your rhythm again.', 'Plan your learning, focus together, and find your rhythm again.');
+html = html.replaceAll('Seed offering · Outline review pending', 'Reviewed outline · Manual progress').replaceAll('Seed course outlines are pending review.', 'Reviewed source outlines; estimates and source-order limits are shown in the library.');
+const offeringIds = ['google-project-management', 'cs50-business'];
+let offeringIndex = 0;
+html = html.replace(/href="\/library"([^>]*>View offering)/g, (_, tail) => `href="/library/${offeringIds[offeringIndex++]}"${tail}`);
+html = html.replace('<a href="/auth">Sign in</a>', '<a class="session-link" href="/auth">Sign in</a>');
+html = html.replace('</body>', '<script src="/landing-account.js" defer></script></body>');
+html = html.replace('<button type="button" data-motion-toggle>Pause motion</button>', '');
+html = html.replace('<nav aria-label="Main navigation">', '<nav aria-label="Main navigation"><a class="how-link" href="#how-it-works">How it works</a>');
+html = html.replace('class="how-section section-width"', 'class="how-section section-width" id="how-it-works"');
+html = html.replace('<span>Your rhythm.</span>', '<span class="rhythm-word">Your rhythm.<svg viewBox="0 0 470 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16C120 5 205 23 296 12S410 4 466 10"/></svg></span>');
+html = html.replace('Learn. Plan. Begin again.', 'A plan that moves with you.');
+html = html.replace('<div class="stage-base">', '<div class="stage-base" data-preview-caption>');
+html = html.replace('Progress has more than one shape.', 'Try a task. See a small step add up.');
+html = html.replace('Explore our first seed offerings,', 'Explore our first two courses,');
+html = html.replace('Choose a library offering or build a private course outline. Keep the order of the work clear.', 'Choose a course from the library or create your own. Keep its modules and activities in order.');
+html = html.replace('Turn an intention into a daily agenda, with one shared time budget across your courses.', 'Choose your study days and available time. Preview a schedule that fits all your courses.');
+html = html.replace('class="return-done"', 'class="return-done" pathLength="1"');
+html = html.replace('<section class="own-way section-width"', '<section class="own-way section-width"');
+html = html.replace('Bring your courses into one thoughtful plan. Know what comes next. Keep what you’ve done. Find your way back.', 'Turn your courses into a plan that fits real life. Focus with friends, share your progress, and find your next step.');
+html = html.replace('<a class="how-link" href="#how-it-works">How it works</a>', '<a class="how-link" href="#how-it-works">How it works</a><a href="#learn-together">Learn together</a>');
+const community = readFileSync('apps/web/src/landing/community.html', 'utf8');
+html = html.replace(/ {4}<section class="own-way section-width"[\s\S]*?<\/section>/, '');
+html = html.replace('    <section class="return-section"', community + '\n    <section class="return-section"');
+const recoveryDemo = readFileSync('apps/web/src/landing/recovery-demo.html', 'utf8');
+html = html.replace(/ {8}<div class="return-diagram"[\s\S]*?<\/div>/, recoveryDemo.trimEnd());
+const origin = readFileSync('apps/web/src/landing/brand-story.html', 'utf8');
+html = html.replace('<p>Dima evokes steady, gentle rain. A quiet appreciation for consistent small deeds: learning that grows through returning.</p>', origin);
+html = html.replace('<section class="return-section"', '<section class="return-section" id="find-your-way-back"');
+html = html.replace('<div class="stage-base" data-preview-caption>', '<div class="hero-win"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18h5v-5h5V8h5V3M15 3h3v3"/></svg><span data-hero-win aria-live="polite">Your next step starts here.</span></div><div class="stage-base" data-preview-caption>');
+html = html.replace('</head>', '<link rel="stylesheet" href="/landing-enhancements.css"><script src="/landing-enhancements.js" defer></script><link rel="stylesheet" href="/landing-composition.css"><script src="/landing-ensemble.js" defer></script><link rel="stylesheet" href="/landing-dynamics.css"><script src="/landing-dynamics.js" defer></script></head>');
+// Share exactly the same preference bootstrap, tokens and logo variants with the app.
+for (const file of ['theme.css', 'appearance.css']) cpSync(`packages/ui/src/${file}`, `apps/web/public/${file}`);
+html = html.replace('<head>', '<head><script src="/appearance.js"></script>');
+html = html.replace('</head>', '<link rel="stylesheet" href="/landing-ambient.css"><script src="/landing-ambient.js" defer></script><link rel="stylesheet" href="/theme.css"><link rel="stylesheet" href="/appearance.css"><link rel="stylesheet" href="/landing-dark.css"></head>');
+html = html.replace(/<img src="\/reference\/assets\/logo\/logo-horizontal.svg"([^>]+)>/g, (_, attrs) => `<span class="dima-brand-logo"><img class="dima-logo-light" src="/brand/logo-horizontal.svg"${attrs}><img class="dima-logo-dark" src="/brand/logo-horizontal-dark.svg"${attrs}></span>`);
+html = html.replace('<nav aria-label="Main navigation">', '<nav aria-label="Main navigation"><button type="button" class="dima-appearance-toggle" data-theme-toggle aria-label="Dark mode" aria-pressed="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.9 13.2A9 9 0 0 1 10.8 3.1 9 9 0 1 0 20.9 13.2Z"/></svg><span>Dark mode</span></button>');
+html = html.replace('<nav aria-label="Footer">', '<nav aria-label="Footer"><button type="button" data-ambient-toggle hidden aria-pressed="false">Pause background motion</button>');
+mkdirSync('apps/web/src/generated', { recursive: true });
+writeFileSync('apps/web/src/generated/landing.ts', `// Generated by scripts/prepare-landing.mjs; no user content.\nexport const landingHtml = ${JSON.stringify(html)};\n`);
+console.log('Approved landing adapted with real routes; reference originals preserved.');

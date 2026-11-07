@@ -1,0 +1,55 @@
+{
+  "source": "/media/amro/Data2/Kanaf/outputs/dima-prd-20261031",
+  "snapshot_version": "1.1",
+  "copied_at": "2026-10-31",
+  "files": [
+    {
+      "path": "ARCHITECTURE_AND_DATA_AR.md",
+      "sha256": "6283383fdde066a70d739206f9a22e4fa11a53f3c4ff994acde7c7c0a4ed6617"
+    },
+    {
+      "path": "DELIVERY_AND_ACCEPTANCE_AR.md",
+      "sha256": "d28c9d8aa343c2f009c1b6ea07cd272efdcf1c0f126c9b890edba337dca1302a"
+    },
+    {
+      "path": "HOSTING_DECISION_AR.md",
+      "sha256": "85e31bd04c2e39159a899ea73f4856c95381e24398aebbaf6d78c9a1662e2247"
+    },
+    {
+      "path": "PRD_AR.md",
+      "sha256": "af5631bb96af5fcc7d549d39e0595176776adae6c75de87f2d34833e32be25b1"
+    },
+    {
+      "path": "QA_NOTES_AR.md",
+      "sha256": "573d90ca720329f74a66f051745efbb00d2b7d3c5d50e085f452b17f571c4bd9"
+    },
+    {
+      "path": "README_AR.md",
+      "sha256": "5cb620ead0d3cb9ebc5bc8cc98df5d0bc55b91aaaec69974685e111b90b20ab5"
+    },
+    {
+      "path": "RECOVERY_AND_PROGRESS_SPEC_AR.md",
+      "sha256": "fbcf1bcb1f3410231e06f2d75ab4efa3decc43e931fda3afe8abb52fad9beb35"
+    },
+    {
+      "path": "RESEARCH_AND_DECISIONS_AR.md",
+      "sha256": "a810346826dc875f97dc92759635b2041fff6df937473320e126a269af78fabb"
+    },
+    {
+      "path": "ROOMS_AND_FOCUS_SPEC_AR.md",
+      "sha256": "6a1976e507bee0ae1e83907091230c1695147078e52e3ed5275d3ffc7e412387"
+    },
+    {
+      "path": "SCREEN_SPEC_AR.md",
+      "sha256": "a57a2c0196731ee8e712b3b94b39b81f68255b23e590cf8c0cfd1affbabbefca"
+    },
+    {
+      "path": "research/FOCUS_ROOMS_RESEARCH_AR.md",
+      "sha256": "da03808a5037c257fea73ae8c6a701eeef340709bc4771d7d50a43992a89cee4"
+    },
+    {
+      "path": "research/RECOVERY_PROGRESS_RESEARCH_AR.md",
+      "sha256": "2c2284a395918c9895872ece7e88b43f121d6a18f327ba5345da4934fa9e6f47"
+    }
+  ]
+}

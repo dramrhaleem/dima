@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dima-web",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-23",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "dima-web"
+    }
+  ],
+  "workers_dev": false,
+  "preview_urls": false,
+  "vars": {
+    "DIMA_B0_ENABLED": "false"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
